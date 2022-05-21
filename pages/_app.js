@@ -3,12 +3,13 @@ import { useEffect } from 'react';
 import Router from 'next/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from '../utils/firebaseConfig';
+import Layout from '../components/Layout';
 
 function MyApp({ Component, pageProps }) {
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, async (u) => {
-      console.log(u)
+      // console.log(u)
       if(u != null && (Router.pathname == "/login" || Router.pathname == "/register")){
         Router.push("/");
       }
@@ -26,7 +27,13 @@ function MyApp({ Component, pageProps }) {
     //   }
     // }
   }, [])
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
+  );
 }
 
 export default MyApp

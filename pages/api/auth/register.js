@@ -24,7 +24,8 @@ const register = async (req, res) => {
         await setDoc(doc(db, 'users', response.user.uid), {
             username: username,
             email: email,
-            phone: phone
+            phone: phone,
+            role: 'user'
         })
         // console.log(response.user)
         return res.json({
