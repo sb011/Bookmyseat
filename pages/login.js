@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { postData } from '../utils/fetchData';
 import Router from 'next/router'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../utils/firebaseConfig";

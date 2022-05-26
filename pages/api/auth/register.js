@@ -1,7 +1,7 @@
 import vaild from "../../../utils/valid";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { app, db } from "../../../utils/firebaseConfig";
-import { collection, setDoc, doc } from "firebase/firestore/lite";
+import { setDoc, doc } from "firebase/firestore/lite";
 
 export default async (req, res) =>{
     switch(req.method){

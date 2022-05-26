@@ -1,24 +1,83 @@
-import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage'
+import { getDownloadURL, listAll, ref, uploadBytesResumable, uploadBytes } from 'firebase/storage'
 import { storage } from '../utils/firebaseConfig';
 
+// export const upload = async (folder, files) => {
+//   const promises = []
+//   files.forEach((item) => {
+//     console.log(item.type)
+//     const metadata = {
+//       contentType: `${item.type}`
+//     };
+//     const storageRef = ref(storage, `${folder}/${item.name}`)
+//     const uploadTask =  uploadBytesResumable(storageRef, item.file, metadata)
+//     promises.push(uploadTask)
+//   })
+
+//   const result = await Promise.all(promises)
+//   console.log(result)
+//   const urlPromises = result.map(async item => {
+//     const path = item.ref.toString()
+//     return await downloadFile(path)
+//   })
+
+//   return await Promise.all(urlPromises)
+// };
+
 export const upload = async (folder, files) => {
-  const promises = []
+  let urls = [];
   files.forEach((item) => {
-    // const fileName = new Date().getTime() + item.label + item.file.name;
+    const metadata = {
+      contentType: `${item.type}`
+    };
+    
+    // Upload file and metadata to the object 'images/mountains.jpg'
     const storageRef = ref(storage, `${folder}/${item.name}`)
-    const uploadTask =  uploadBytesResumable(storageRef, item.file)
-    promises.push(uploadTask)
+    const uploadTask =  uploadBytesResumable(storageRef, item, metadata)
+    
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      }, 
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case 'storage/unauthorized':
+            // User doesn't have permission to access the object
+            break;
+          case 'storage/canceled':
+            // User canceled the upload
+            break;
+    
+          // ...
+    
+          case 'storage/unknown':
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      }, 
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          // console.log('File available at', downloadURL);
+          urls.push(downloadURL)
+        });
+      }
+    )
   })
-
-  const result = await Promise.all(promises)
-  const urlPromises = result.map(async item => {
-    // console.log("yeas")
-    const path = item.ref.toString()
-    return await downloadFile(path)
-  })
-
-  return await Promise.all(urlPromises)
-};
+  return urls;
+}
 
 
 

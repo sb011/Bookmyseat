@@ -14,17 +14,22 @@ const AddMovies = () => {
         writers: [],
         stars: [],
         rating: '',
+        poster: [],
         images: [],
         trailer: '',
         duration: '',
-        date: '',
+        release: Date,
         limit: '',
+        active: true
     }
 
     const [movie, setMovie] = useState(state)
     const [files, setFiles] = useState([])
+    const [poster, setPoster] = useState([])
+    const [trailer, setTrailer] = useState('')
     const [err, setErr] = useState('')
     const auth = getAuth()
+    const [isUploaded, setIsUploaded] = useState(false)
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -79,28 +84,30 @@ const AddMovies = () => {
         setMovie({...movie, stars: star})
     }   
 
-    const up = async () => {
+    const handleUpload = async () => {
         try {
-            const res = await upload(`images/${auth.currentUser.uid}`, (files))
-            setMovie({...movie, images: res})
+            // console.log(poster, files)
+            const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
+            // setMovie({...movie, images: res_images})
+            const res_poster = await upload(`images/${auth.currentUser.uid}`, (poster))
+            const trailer = movie.trailer.substring(movie.trailer.lastIndexOf("/") + 1)
+            setMovie({...movie, poster: res_poster, images: res_images, trailer: trailer})
+            // console.log(res_images, res_poster)
+            // console.log(movie)
+            setIsUploaded(true)
         } catch (error) {
-            
+            setErr(error.message)
         }
     }
 
     const handleSubmit = async () => {
         try {
-            up();
-
             console.log(movie)
-            const r = await addDoc(collection(db, "movies"), movie)
-            // const docRef = await addDoc(collection(db, "cities"), {
-            //     name: "Tokyo",
-            //     country: "Japan"
-            // });
-            console.log("Document written with ID: ", r.id);
+            await addDoc(collection(db, "movies"), movie)
+            setIsUploaded(false)
         } catch (error) {
             setErr(error.message)
+            console.log(error.message)
         }
     }
 
@@ -177,6 +184,10 @@ const AddMovies = () => {
                     <input type="text" id="rating" placeholder="rating" name="rating" value={movie.rating} onChange={handleInputChange} />
                 </div>
                 <div>
+                    <label htmlFor="poster">poster</label>
+                    <ImageInput multiple files={poster} setFiles={setPoster} />
+                </div>
+                <div>
                     <label htmlFor="image">image</label>
                     <ImageInput multiple files={files} setFiles={setFiles} />
                 </div>
@@ -189,14 +200,18 @@ const AddMovies = () => {
                     <input type="text" id="duration" placeholder="duration" name="duration" value={movie.duration} onChange={handleInputChange} />
                 </div>
                 <div>
-                    <label htmlFor="date">date</label>
-                    <input type="date" id="date" placeholder="date" name="date" value={movie.date} onChange={handleInputChange} />
+                    <label htmlFor="release">release</label>
+                    <input type="date" id="release" placeholder="release" name="release" value={movie.release} onChange={handleInputChange} />
                 </div>
                 <div>
                     <label htmlFor="limit">limit</label>
                     <input type="text" id="limit" placeholder="limit" name="limit" value={movie.limit} onChange={handleInputChange} />
                 </div>
-                <button onClick={handleSubmit}>Submit</button>
+                {
+                    isUploaded 
+                    ? <button onClick={handleSubmit}>Submit</button>
+                    : <button onClick={handleUpload}>Upload</button>
+                }
             {/* </form> */}
         </div>
     )

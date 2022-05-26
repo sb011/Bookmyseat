@@ -6,39 +6,41 @@ const ImageInput = ({ multiple, files, setFiles }) => {
     const handleInputFiles = (e) => {
         e.preventDefault()
         const target = e.target
-        const files = target.files;
-        if(!files) 
+        const images = target.files;
+        if(!images) 
             return;
         
-        checkImages(files)
+        checkImages(images)
     }
 
-    const checkImages = (files) => {
-        let newFiles = []
-    
-        Array.from(files).map(file => {
-          if(!file){
-            setErr("File does not exist.")
-            return
-          }
-    
-          const types = ['image/png', 'image/jpeg', 'image/gif']
+    const checkImages = (images) => {
+      // let img = [...files]
+      let newFiles = []
+  
+      Array.from(images).map(file => {
+        if(!file){
+          setErr("File does not exist.")
+          return
+        }
+  
+        const types = ['image/png', 'image/jpeg', 'image/gif']
 
-          if(!types.includes(file.type)){
-            setErr("The image type is png / jpeg / gif.")
-            return
-          }
-    
-          if(file.size > 1024 * 1024){
-            setErr("The largest image size is 1mb.")
-            return
-          }
-    
-          newFiles.push(file)
-        })
-    
-        setFiles(newFiles)
-      }
+        if(!types.includes(file.type)){
+          setErr("The image type is png / jpeg / gif.")
+          return
+        }
+  
+        if(file.size > 1024 * 1024){
+          setErr("The largest image size is 1mb.")
+          return
+        }
+  
+        newFiles.push(file) 
+      })
+      
+      setFiles([...files, ...newFiles])
+      console.log(files)
+    }
 
     const allowDrag = (e) => {
         e.preventDefault()
@@ -53,10 +55,16 @@ const ImageInput = ({ multiple, files, setFiles }) => {
         checkImages(files)
     }
 
+    const removeImage = (index) => {
+      const f = files.filter((_, i) => i != index)
+      setFiles(f)
+    }
+
     const showImage = (url, index) => {
         return (
           <div key={index}>
             <img src={url} alt="avatar" style={{width: "100px"}}/>
+            <h5 onClick={() => removeImage(index)}>X</h5>
           </div>
         )
     }

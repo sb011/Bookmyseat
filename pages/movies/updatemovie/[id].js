@@ -1,5 +1,114 @@
+import { useEffect, useState } from 'react';
+import ImageInput from '../../../components/imageInput';
+import { upload } from '../../../components/uploadFiles';
+import { getAuth } from 'firebase/auth';
+import { setDoc, doc, getDoc, collection } from 'firebase/firestore/lite'
+import { db } from '../../../utils/firebaseConfig';
 
-const UpdateMovies = () => {
+const UpdateMovies = ({currMovie}) => {
+    const state = {
+        name: '',
+        tag: [],
+        description: '',
+        director: [],
+        writers: [],
+        stars: [],
+        rating: '',
+        images: [],
+        trailer: '',
+        duration: '',
+        date: '',
+        limit: '',
+        active: true
+    }
+
+    const [movie, setMovie] = useState(state)
+    const [files, setFiles] = useState([])
+    const [err, setErr] = useState('')
+    const auth = getAuth()
+
+    useEffect(() => {
+        try {
+            const res = 
+        } catch (error) {
+            console.log(error.message)
+        }
+        setMovie(currMovie);
+        setFiles(currMovie.images);
+    })
+
+    const handleInputChange = e => {
+        const { name, value } = e.target
+        setMovie({...movie, [name]: value})
+    }
+
+    const addTag = event => {
+        if(event.target.value != ""){
+            setMovie({...movie, tag: [...movie.tag, event.target.value] })
+            event.target.value = ""
+        }
+    }
+
+    const removeTag = indexToRemove => {
+        const t = movie.tag.filter((_, index) => index != indexToRemove)
+        setMovie({...movie, tag: t})
+    }
+
+    const addDirector = event => {
+        if(event.target.value != ""){
+            setMovie({...movie, director: [...movie.director, event.target.value] })
+            event.target.value = ""
+        }
+    }
+
+    const removeDirector = indexToRemove => {
+        const dir = movie.director.filter((_, index) => index != indexToRemove)
+        setMovie({...movie, director: dir})
+    }
+
+    const addWriters = event => {
+        if(event.target.value != ""){
+            setMovie({...movie, writers: [...movie.writers, event.target.value] })
+            event.target.value = ""
+        }
+    }
+
+    const removeWriters = indexToRemove => {
+        const writer = movie.writers.filter((_, index) => index != indexToRemove)
+        setMovie({...movie, writers: writer})
+    }
+
+    const addStars = event => {
+        if(event.target.value != ""){
+            setMovie({...movie, stars: [...movie.stars, event.target.value] })
+            event.target.value = ""
+        }
+    }
+
+    const removeStars = indexToRemove => {
+        const star = movie.stars.filter((_, index) => index != indexToRemove)
+        setMovie({...movie, stars: star})
+    }
+
+    const up = async () => {
+        try {
+            const res = await upload(`images/${auth.currentUser.uid}`, (files))
+            setMovie({...movie, images: res})
+        } catch (error) {
+            
+        }
+    }
+
+    const handleSubmit = async () => {
+        try {
+            up();
+            console.log(movie)
+            const r = await setDoc(collection(db, "movies"), movie)
+        } catch (error) {
+            setErr(error.message)
+        }
+    }
+
     return (
         <div>
             <div>
