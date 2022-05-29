@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import ImageInput from '../../../components/imageInput';
 import { upload } from '../../../components/uploadFiles';
 import { getAuth } from 'firebase/auth';
-import { setDoc, doc, getDoc, collection } from 'firebase/firestore/lite'
+import { setDoc, doc, getDoc } from 'firebase/firestore/lite'
 import { db } from '../../../utils/firebaseConfig';
+import { useRouter } from 'next/router';
 
-const UpdateMovies = ({currMovie}) => {
+const UpdateMovies = (props) => {
     const state = {
         name: '',
         tag: [],
@@ -14,28 +15,34 @@ const UpdateMovies = ({currMovie}) => {
         writers: [],
         stars: [],
         rating: '',
+        poster: [],
         images: [],
         trailer: '',
         duration: '',
-        date: '',
+        release: Date,
         limit: '',
-        active: true
+        active: Boolean
     }
 
+    const router = useRouter()
     const [movie, setMovie] = useState(state)
     const [files, setFiles] = useState([])
+    const [poster, setPoster] = useState([])
+    const [active, setActive] = useState(movie.active)
     const [err, setErr] = useState('')
+    const [isUploaded, setIsUploaded] = useState(false)
     const auth = getAuth()
 
-    useEffect(() => {
+    useEffect(async () => {
         try {
-            const res = 
+            const res = await getDoc(doc(db, 'movies', `${props.id}`))
+            setMovie(res.data())
+            setFiles(res.data().images);
+            setPoster(res.data().poster);
         } catch (error) {
             console.log(error.message)
         }
-        setMovie(currMovie);
-        setFiles(currMovie.images);
-    })
+    }, [])
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -90,22 +97,29 @@ const UpdateMovies = ({currMovie}) => {
         setMovie({...movie, stars: star})
     }
 
-    const up = async () => {
+    const handleChangeActive = () => {
+        setActive(!active)
+    }
+
+    const handleUpload = async () => {
         try {
-            const res = await upload(`images/${auth.currentUser.uid}`, (files))
-            setMovie({...movie, images: res})
+            const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
+            const res_poster = await upload(`images/${auth.currentUser.uid}`, (poster))
+            setMovie({...movie, poster: res_poster, images: res_images, active: active})
+            setIsUploaded(true)
         } catch (error) {
-            
+            setErr(error.message)
         }
     }
 
     const handleSubmit = async () => {
         try {
-            up();
             console.log(movie)
-            const r = await setDoc(collection(db, "movies"), movie)
+            await setDoc(doc(db, 'movies', `${props.id}`), movie)
+            setIsUploaded(false)
         } catch (error) {
             setErr(error.message)
+            console.log(error.message)
         }
     }
 
@@ -181,28 +195,45 @@ const UpdateMovies = ({currMovie}) => {
                 <input type="text" id="rating" placeholder="rating" name="rating" value={movie.rating} onChange={handleInputChange} />
             </div>
             <div>
+                <label htmlFor="poster">poster</label>
+                <ImageInput multiple files={poster} setFiles={setPoster} />
+            </div>
+            <div>
                 <label htmlFor="image">image</label>
                 <ImageInput multiple files={files} setFiles={setFiles} />
             </div>
             <div>
                 <label htmlFor="trailer">trailer</label>
                 <input type="text" id="trailer" placeholder="trailer" name="trailer" value={movie.trailer} onChange={handleInputChange} />
+                <small>Add only code</small>
             </div>
             <div>
                 <label htmlFor="duration">duration</label>
                 <input type="text" id="duration" placeholder="duration" name="duration" value={movie.duration} onChange={handleInputChange} />
             </div>
             <div>
-                <label htmlFor="date">date</label>
-                <input type="date" id="date" placeholder="date" name="date" value={movie.date} onChange={handleInputChange} />
+                <label htmlFor="release">release</label>
+                <input type="date" id="release" placeholder="release" name="release" value={movie.release} onChange={handleInputChange} />
             </div>
             <div>
                 <label htmlFor="limit">limit</label>
                 <input type="text" id="limit" placeholder="limit" name="limit" value={movie.limit} onChange={handleInputChange} />
             </div>
-            <button onClick={handleSubmit}>Submit</button>
+            <div>
+                <label htmlFor="active">active</label>
+                <input type="checkbox" id="active" name="active" checked={active} onChange={handleChangeActive} />
+            </div>
+            {
+                isUploaded 
+                ? <button onClick={handleSubmit}>Submit</button>
+                : <button onClick={handleUpload}>Upload</button>
+            }
         </div>
     )
+}
+
+export async function getServerSideProps ({params: {id}}) {
+    return { props: { id } };
 }
 
 export default UpdateMovies;

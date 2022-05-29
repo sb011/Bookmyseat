@@ -11,6 +11,7 @@ const ImageInput = ({ multiple, files, setFiles }) => {
             return;
         
         checkImages(images)
+
     }
 
     const checkImages = (images) => {
@@ -35,7 +36,7 @@ const ImageInput = ({ multiple, files, setFiles }) => {
           return
         }
   
-        newFiles.push(file) 
+        return newFiles.push(file) 
       })
       
       setFiles([...files, ...newFiles])
@@ -56,8 +57,9 @@ const ImageInput = ({ multiple, files, setFiles }) => {
     }
 
     const removeImage = (index) => {
-      const f = files.filter((_, i) => i != index)
-      setFiles(f)
+      const newArr = [...files];
+      newArr.splice(index, 1);
+      setFiles(newArr);
     }
 
     const showImage = (url, index) => {

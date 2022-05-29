@@ -1,4 +1,4 @@
-import { getDownloadURL, listAll, ref, uploadBytesResumable, uploadBytes } from 'firebase/storage'
+import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../utils/firebaseConfig';
 
 // export const upload = async (folder, files) => {
@@ -24,8 +24,12 @@ import { storage } from '../utils/firebaseConfig';
 // };
 
 export const upload = async (folder, files) => {
-  let urls = [];
-  files.forEach((item) => {
+  let newImg = files.filter(img => img.name);
+  let oldImg = files.filter(img => !img.name);
+  let urls = [...oldImg];
+  console.log(newImg)
+  newImg.forEach((item) => {
+    // console.log(item)
     const metadata = {
       contentType: `${item.type}`
     };

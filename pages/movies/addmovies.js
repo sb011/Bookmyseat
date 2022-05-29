@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ImageInput from '../../components/imageInput';
 import { upload } from '../../components/uploadFiles';
 import { getAuth } from 'firebase/auth';
-import { addDoc, doc, collection } from 'firebase/firestore/lite'
+import { addDoc, collection } from 'firebase/firestore/lite'
 import { db } from '../../utils/firebaseConfig';
 
 const AddMovies = () => {
@@ -26,7 +26,6 @@ const AddMovies = () => {
     const [movie, setMovie] = useState(state)
     const [files, setFiles] = useState([])
     const [poster, setPoster] = useState([])
-    const [trailer, setTrailer] = useState('')
     const [err, setErr] = useState('')
     const auth = getAuth()
     const [isUploaded, setIsUploaded] = useState(false)
@@ -90,8 +89,8 @@ const AddMovies = () => {
             const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
             // setMovie({...movie, images: res_images})
             const res_poster = await upload(`images/${auth.currentUser.uid}`, (poster))
-            const trailer = movie.trailer.substring(movie.trailer.lastIndexOf("/") + 1)
-            setMovie({...movie, poster: res_poster, images: res_images, trailer: trailer})
+            // const trailer = movie.trailer.substring(movie.trailer.lastIndexOf("/") + 1)
+            setMovie({...movie, poster: res_poster, images: res_images})
             // console.log(res_images, res_poster)
             // console.log(movie)
             setIsUploaded(true)
@@ -194,6 +193,7 @@ const AddMovies = () => {
                 <div>
                     <label htmlFor="trailer">trailer</label>
                     <input type="text" id="trailer" placeholder="trailer" name="trailer" value={movie.trailer} onChange={handleInputChange} />
+                    <small>Add only code</small>
                 </div>
                 <div>
                     <label htmlFor="duration">duration</label>

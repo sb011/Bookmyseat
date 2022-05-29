@@ -1,9 +1,10 @@
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { db } from '../../utils/firebaseConfig';
-import { doc, getDoc, collection } from 'firebase/firestore/lite';
+import { doc, getDoc } from 'firebase/firestore/lite';
+import Link from 'next/link';
+import DeleteMovie from '../../components/deleteMovie';
 
-const Movie = () => {
+const Movie = (props) => {
     const state = {
         name: '',
         tag: [],
@@ -20,16 +21,16 @@ const Movie = () => {
         limit: '',
         active: Boolean
     }
-    const router = useRouter()
-    const { id } = router.query;
-    const [movie, setMovie] = useState(state)
+    // const router = useRouter()
+    // const { id } = router.query;
+    const [movie, setMovie] = useState(state);
+    const [removeMovie, setRemoveMovie] = useState(false);
 
     useEffect(async () => {
-        if(!router.isReady)
-            return;
-        const res = await getDoc(doc(db, 'movies', `${id}`))
+        const res = await getDoc(doc(db, 'movies', `${props.id}`))
         setMovie(res.data())
-    }, [router.isReady])
+        // console.log(res.data())
+    }, [])
 
     return (
         <div>
@@ -128,8 +129,26 @@ const Movie = () => {
                 <label htmlFor="limit">limit</label>
                 <h1 id="limit">{movie.limit}</h1>
             </div>
+            <div>
+                <label htmlFor="active">active</label>
+                {
+                    movie.active
+                    ? <h1 id="active">Movie is active</h1>
+                    : <h1 id="active">Movie is not active</h1>
+                }
+            </div>
+            <Link href={`/movies/updatemovie/${props.id}`}><a>Update</a></Link>
+            <button onClick={() => setRemoveMovie(true)}>Delete Movie</button>
+            {
+                removeMovie &&
+                <DeleteMovie setRemoveMovie={setRemoveMovie} id={props.id} />
+            }
         </div>
     )
+}
+
+export async function getServerSideProps ({params: {id}}) {
+    return { props: { id } };
 }
 
 export default Movie
