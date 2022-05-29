@@ -1,35 +1,58 @@
-import styles from '../styles/Home.module.scss'
-import { useState } from 'react';
-import { getAuth, signOut } from 'firebase/auth';
+import { useEffect, useState } from "react"
+import { getDocs, collection } from 'firebase/firestore/lite';
+import { db } from "../utils/firebaseConfig";
+import Link from 'next/link';
 
-export default function Home() {
-  const [err, seterr] = useState('');
-  const auth = getAuth()
-  // useEffect(() => {
-  //   console.log(getAuth(app)._currentUser);  
-  // }, [])
+const ShowMovies = () => {
+    const [movies, setMovies] = useState([]);
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      localStorage.removeItem("isLogin");
-    } catch (error) {
-      seterr(error.message)
-    }
-    // if(res.err)
-    //   seterr(res.err)
-    // else{
-      
-    //   Router.push("/login")
-    // }
-  }
+    useEffect(async () => {
+        const res = await getDocs(collection(db, "movies"))
+        
+        let d = []
+        res.forEach((data) =>{
+            d.push({...data.data(), uid: data.id})
+        })
+        setMovies(d)
+        console.log(d)
+    }, [])
 
-  return (
-    <div className={styles.container}>
-      <button onClick={handleLogout}>
-        Logout
-      </button>
-      <p>{err}</p>
-    </div>
-  )
+    return(
+        <div>
+            {
+                movies.length === 0
+                ? <h1>No Movies</h1>
+                : movies.map((movie, index) => (
+                    <div key={index}>
+                        <div>
+                            <label htmlFor="name">name</label>
+                            <h1 id="name" name="name"><Link href={`/movies/${movie.uid}`}><a>{movie.name}</a></Link></h1>
+                        </div>
+                        <div>
+                            <label htmlFor="poster">poster</label>
+                            <img src={movie.poster[0]} alt="poster" style={{width: "100px"}}/>
+                        </div>
+                        <div>
+                            <label htmlFor="release">release</label>
+                            <h1 id="release" name="release">{movie.release}</h1>
+                        </div>
+                        <div>
+                            <label htmlFor="tag">tag</label>
+                            <ul>
+                                { 
+                                    movie.tag.map((tag, index) => (
+                                        <li key={index}>
+                                            <span>{tag}</span>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div> 
+                    </div>                  
+                ))
+            }
+        </div>
+    )
 }
+
+export default ShowMovies;

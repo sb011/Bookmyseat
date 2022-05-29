@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../utils/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore/lite';
+import Link from 'next/link';
+import DeleteMovie from '../../components/deleteMovie';
 
 const Movie = (props) => {
     const state = {
@@ -135,6 +137,12 @@ const Movie = (props) => {
                     : <h1 id="active">Movie is not active</h1>
                 }
             </div>
+            <Link href={`/admin/updatemovie/${props.id}`}><a>Update</a></Link>
+            <button onClick={() => setRemoveMovie(true)}>Delete Movie</button>
+            {
+                removeMovie &&
+                <DeleteMovie setRemoveMovie={setRemoveMovie} id={props.id} />
+            }
         </div>
     )
 }

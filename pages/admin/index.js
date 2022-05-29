@@ -19,6 +19,9 @@ const ShowMovies = () => {
 
     return(
         <div>
+            <div>
+                <Link href="/admin/addmovies"><a>Add Movie</a></Link>
+            </div>
             {
                 movies.length === 0
                 ? <h1>No Movies</h1>
@@ -26,7 +29,7 @@ const ShowMovies = () => {
                     <div key={index}>
                         <div>
                             <label htmlFor="name">name</label>
-                            <h1 id="name" name="name"><Link href={`/movies/${movie.uid}`}><a>{movie.name}</a></Link></h1>
+                            <h1 id="name" name="name"><Link href={`/admin/${movie.uid}`}><a>{movie.name}</a></Link></h1>
                         </div>
                         <div>
                             <label htmlFor="poster">poster</label>

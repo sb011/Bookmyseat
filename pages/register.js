@@ -33,7 +33,7 @@ const Register = () => {
             seterr(res.err)
         else{
             localStorage.setItem('isLogin', true)
-            Router.push("/")
+            Router.push("/login")
         }
     }
 

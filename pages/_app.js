@@ -9,12 +9,14 @@ function MyApp({ Component, pageProps }) {
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, async (u) => {
-      // console.log(u)
+      console.log(u)
       if(u != null && (Router.pathname == "/login" || Router.pathname == "/register")){
         Router.push("/");
       }
-      else if(u == null && (Router.pathname != "/login" || Router.pathname != "/register")){
-        Router.push("/login")
+      else if(Router.pathname != "/login" || Router.pathname != "/register"){
+        if(u == null){
+          Router.push("/login")
+        }
       }
     })
     // if(localStorage.getItem("isLogin") && (Router.pathname == "/login" || Router.pathname == "/register")){
@@ -28,11 +30,9 @@ function MyApp({ Component, pageProps }) {
     // }
   }, [])
   return (
-    <>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </>
   );
 }
 
