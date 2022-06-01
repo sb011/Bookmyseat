@@ -3,7 +3,6 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore/lite";
 import { db } from "../utils/firebaseConfig";
 import { useState, useEffect } from "react";
-import Router from "next/router";
 
 const Navbar = () => {
     const state = {
@@ -37,14 +36,24 @@ const Navbar = () => {
         <>
             {
                 auth.currentUser &&
-                <ul>
+                <>
                     {
-                        user.role == "admin" && <li><Link href="/admin"><a>Admin</a></Link></li>
+                        user.role == "admin" && 
+                        <ul>
+                            <li><Link href="/admin"><a>Movies</a></Link></li>
+                            <li><Link href="/admin/cinema"><a>Cinemas</a></Link></li>
+                            <li><Link href="/admin/showtime"><a>ShowTime</a></Link></li>
+                        </ul>
                     }
-                    <li><Link href="/"><a>Home</a></Link></li>
-                    <li><Link href="/profile"><a>Profile</a></Link></li>
-                    <li><button onClick={handleLogout}>logout</button></li>
-                </ul>
+                    <ul>
+                        {
+                            user.role == "admin" && <li><Link href="/admin"><a>Admin</a></Link></li>
+                        }
+                        <li><Link href="/"><a>Home</a></Link></li>
+                        <li><Link href="/profile"><a>Profile</a></Link></li>
+                        <li><button onClick={handleLogout}>logout</button></li>
+                    </ul>
+                </>
             }
         </>
     )

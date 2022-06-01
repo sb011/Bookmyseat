@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../utils/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore/lite';
+import Link from 'next/link';
 
 const Movie = (props) => {
     const state = {
@@ -135,6 +136,7 @@ const Movie = (props) => {
                     : <h1 id="active">Movie is not active</h1>
                 }
             </div>
+            <Link href={`/movies/bookticket/${props.id}`}><a>Book Ticket</a></Link>
         </div>
     )
 }

@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, async (u) => {
-      console.log(u)
+      // console.log(u)
       if(u != null && (Router.pathname == "/login" || Router.pathname == "/register")){
         Router.push("/");
       }

@@ -46,6 +46,14 @@ const UpdateCinema = (props) => {
                 <label htmlFor="rating">rating</label>
                 <input type="text" id="rating" placeholder="rating" name="rating" value={cinema.rating} onChange={handleInputChange} />
             </div>
+            <div>
+                <label htmlFor="seatrow">seatrow</label>
+                <input type="text" id="seatrow" placeholder="seatrow" name="seatrow" value={cinema.seatrow} onChange={handleInputChange} />
+            </div>
+            <div>
+                <label htmlFor="seatcol">seatcol</label>
+                <input type="text" id="seatcol" placeholder="seatcol" name="seatcol" value={cinema.seatcol} onChange={handleInputChange} />
+            </div>
             <button onClick={handleSubmit}>Submit</button>
         </div>
     )

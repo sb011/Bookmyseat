@@ -32,6 +32,14 @@ const Cinema = (props) => {
                 <label htmlFor="rating">rating</label>
                 <h1 id="rating" name="rating">{cinema.rating}</h1>
             </div>
+            <div>
+                <label htmlFor="seatrow">seatrow</label>
+                <h1 id="seatrow" name="seatrow">{cinema.seatrow}</h1>
+            </div>
+            <div>
+                <label htmlFor="seatcol">seatcol</label>
+                <h1 id="seatcol" name="seatcol">{cinema.seatcol}</h1>
+            </div>
             <Link href={`/admin/cinema/updatecinema/${props.id}`}><a>Update</a></Link>
             <button onClick={() => setRemoveCinema(true)}>Delete Movie</button>
             {

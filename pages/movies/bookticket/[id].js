@@ -1,37 +1,78 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getDocs, getDoc, doc, collection, Timestamp, query, where } from 'firebase/firestore/lite';
+import { db } from '../../../utils/firebaseConfig';
+import { getAuth } from "firebase/auth";
+import Seatting from '../../../components/seatting';
 
 const BookTicket = (props) => {
-    const [movie, setMovie] = useState(state);
+    const state = {
+        movie: '',
+        cinema: '',
+        location: '',
+        date: Date,
+        time: Timestamp,
+        userId: ''
+    }
 
-    useEffect(() => {
+    const auth = getAuth();
+    const [cinemas, setCinemas] = useState([]);
+    const [ticket, setTicket] = useState(state);
+
+    useEffect(async () => {
         const res = await getDoc(doc(db, 'movies', `${props.id}`))
-        setMovie(res.data())
+        setTicket({...ticket, movie: res.data().name, userId: auth.currentUser.uid})
+
+        const res_cinema = await getDocs(collection(db, "cinemas"))
+        let d = []
+        res_cinema.forEach((data) =>{
+            d.push({...data.data(), uid: data.id})
+        })
+        setCinemas(d)
     }, [])
 
     const handleInputChange = e => {
         const { name, value } = e.target
-        setMovie({...user, [name]: value})
+        setTicket({...ticket, [name]: value})
+    }
+
+    const handleChangeCategory = async (e) => {
+        const cin = cinemas.find((cinema) => e.target.value == cinema.name);
+        setTicket({...ticket, cinema: e.target.value, location: cin.location})
+    }
+    
+    const handleSubmit = async () => {
+        try {
+            console.log(ticket)
+            // await addDoc(collection(db, "tickets"), ticket);
+        } catch (error) {
+            
+        }
     }
 
     return (
         <div>
             <h1>Ticket</h1>
-            {/* <div>
+            <div>
                 <label htmlFor="date">date</label>
-                <input type="text" id="date" placeholder="date" name="date" value={date} onChange={handleInputChange} />
+                <input type="date" id="date" placeholder="date" name="date" value={ticket.date} onChange={handleInputChange} />
             </div>
             <div>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" placeholder="Username" name="username" value={username} onChange={handleInputChange} />
+                <label htmlFor="time">time</label>
+                <input type="time" id="time" placeholder="time" name="time" value={ticket.time} onChange={handleInputChange} />
             </div>
             <div>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" placeholder="Username" name="username" value={username} onChange={handleInputChange} />
+                <label htmlFor="cinema">cinema</label>
+                <select value={ticket.cinema} onChange={handleChangeCategory} id="cinema">
+                    <option value=""></option>
+                    {
+                        cinemas.map((cinema, index) => (
+                            <option key={index} value={cinema.name}>{cinema.name}</option>
+                        ))
+                    }
+                </select>
             </div>
-            <div>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" placeholder="Username" name="username" value={username} onChange={handleInputChange} />
-            </div> */}
+            <Seatting />
+            <button onClick={handleSubmit}>Submit</button>
         </div>
     )
 }
