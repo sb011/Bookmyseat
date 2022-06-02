@@ -1,5 +1,4 @@
 import styles from "../styles/seatting.module.scss"
-import { useEffect } from 'react';
 
 const Seatting = ({ ticket, setTicket, row, col, booked }) => {
     // const [cinemas, setCinemas] = useState([]);

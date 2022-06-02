@@ -4,6 +4,7 @@ import { doc, getDoc } from 'firebase/firestore/lite';
 import Link from 'next/link';
 import DeleteMovie from '../../components/deleteMovie';
 import { toast } from "react-toastify";
+import Loading from '../../components/loading';
 
 const Movie = (props) => {
     const state = {
@@ -26,12 +27,16 @@ const Movie = (props) => {
     // const { id } = router.query;
     const [movie, setMovie] = useState(state);
     const [removeMovie, setRemoveMovie] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDoc(doc(db, 'movies', `${props.id}`))
             setMovie(res.data())
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
         // console.log(res.data())
@@ -39,6 +44,9 @@ const Movie = (props) => {
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <div>
                 <label htmlFor="name">name</label>
                 <h1 id="name">{movie.name}</h1>

@@ -4,6 +4,7 @@ import vaild from '../utils/valid';
 import { postData } from '../utils/fetchData';
 import Router from "next/router";
 import { toast } from 'react-toastify';
+import Loading from '../components/loading';
 
 const Register = () => {
     const state = {
@@ -16,6 +17,7 @@ const Register = () => {
 
     const [user, setUser] = useState(state)
     const { username, email, phone, password, c_password } = user
+    const [loading, setLoading] = useState(false)
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -24,6 +26,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         try {
+            setLoading(true)
             e.preventDefault()
             const err = vaild(username, email, phone, password, c_password)
             if(err)
@@ -35,14 +38,18 @@ const Register = () => {
             else{
                 Router.push("/login")
             }
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(res.err);
         }
     }
 
     return (
         <div>
-            <h1>Register</h1>
+            {
+                loading && <Loading />
+            }
             <form onSubmit={handleSubmit} method="POST">
                 <div>
                     <label htmlFor="username">Username</label>

@@ -3,15 +3,18 @@ import { getDoc, doc } from 'firebase/firestore/lite';
 import { db } from '../../utils/firebaseConfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import Loading from '../../components/loading';
 
 const Ticket = (props) => { 
     const [ticket, setTicket] = useState({})
     const [seats, setSeats] = useState([])
     const [user, setUser] = useState()
     const auth = getAuth()
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDoc(doc(db, 'tickets', `${props.id}`))
             setTicket(res.data())
             setSeats(res.data().seats)
@@ -22,12 +25,15 @@ const Ticket = (props) => {
                     setUser(data.username)
                 }
             })
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
     return (
         <div>
+            { loading && <Loading/> }
             <div>
                 <label htmlFor="movie">movie</label>
                 <h1 id="movie" name="movie">{ticket.movie}</h1>

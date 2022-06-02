@@ -2,6 +2,8 @@ import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/sto
 import { storage } from '../utils/firebaseConfig';
 import { toast } from "react-toastify";
 
+const [loading, setLoading] = useState(false)
+
 // export const upload = async (folder, files) => {
 //   const promises = []
 //   files.forEach((item) => {
@@ -25,6 +27,7 @@ import { toast } from "react-toastify";
 // };
 
 export const upload = async (folder, files) => {
+  setLoading(true)
   let newImg = files.filter(img => img.name);
   let oldImg = files.filter(img => !img.name);
   let urls = [...oldImg];
@@ -59,10 +62,12 @@ export const upload = async (folder, files) => {
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
           case 'storage/unauthorized':
+            setLoading(false)
             toast.error(error.message)
             // User doesn't have permission to access the object
             break;
           case 'storage/canceled':
+            setLoading(false)
             toast.error(error.message)
             // User canceled the upload
             break;
@@ -70,6 +75,7 @@ export const upload = async (folder, files) => {
           // ...
     
           case 'storage/unknown':
+            setLoading(false)
             toast.error(error.message)
             // Unknown error occurred, inspect error.serverResponse
             break;
@@ -84,6 +90,7 @@ export const upload = async (folder, files) => {
       }
     )
   })
+  setLoading(false)
   return urls;
 }
 

@@ -3,6 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc } from 'firebase/firestore/lite';
 import { db } from '../utils/firebaseConfig';
 import { toast } from "react-toastify";
+import Loading from './loading';
 
 const ProfileInfo = ({ setOnSetting }) => {
     const state = {
@@ -12,9 +13,11 @@ const ProfileInfo = ({ setOnSetting }) => {
     }
     const auth = getAuth()
     const [user, setUser] = useState(state)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         try {
+            setLoading(true)
             onAuthStateChanged(auth, async (u) => {
                 if(u){
                     const us = await getDoc(doc(db, 'users', `${u.uid}`))
@@ -22,13 +25,18 @@ const ProfileInfo = ({ setOnSetting }) => {
                     setUser({...state, username: data.username, email: data.email, phone: data.phone})
                 }
             })
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <button onClick={() => setOnSetting(true)}>X</button>
             <div>
                 <label htmlFor="username">Username</label>

@@ -3,12 +3,15 @@ import { getDocs, collection } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
 import Link from 'next/link'
 import { toast } from "react-toastify";
+import Loading from "../../../components/loading";
 
 const Cinemas = () => {
     const [cinemas, setCinemas] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDocs(collection(db, "cinemas"))
         
             console.log(res)
@@ -18,13 +21,18 @@ const Cinemas = () => {
             })
             setCinemas(d)
             console.log(d)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <Link href="/admin/cinema/addcinema"><a>Add Cinema</a></Link>
             {
                 cinemas.length === 0

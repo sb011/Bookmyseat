@@ -3,7 +3,5 @@ forgot password
 email verfication
 remeber me
 login from google etc
-error handling
 loading
-trycatch
 security

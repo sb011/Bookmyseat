@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { addDoc, collection, Timestamp, getDocs } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
 import { toast } from "react-toastify";
+import Loading from "../../../components/loading";
 
 const AddShow = () => {
     const state = {
@@ -16,10 +17,11 @@ const AddShow = () => {
     const [show, setShow] = useState(state);
     const [movies, setMovies] = useState([]);
     const [cinemas, setCinemas] = useState([]);
-
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDocs(collection(db, "cinemas"))
         
             console.log(res)
@@ -36,7 +38,9 @@ const AddShow = () => {
                 d_movie.push({...data.data(), uid: data.id})
             })
             setMovies(d_movie)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
@@ -58,15 +62,21 @@ const AddShow = () => {
 
     const handleSubmit = async () => {
         try {
+            setLoading(true)
             // console.log(show)
             await addDoc(collection(db, "shows"), show);
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <div>
                 <label htmlFor="movie">movie</label>
                 <select value={show.movie} onChange={handleChangeCategoryMovie} id="movie">

@@ -4,6 +4,7 @@ import Router from 'next/router'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../utils/firebaseConfig";
 import { toast } from 'react-toastify';
+import Loading from '../components/loading';
 
 const Register = () => {
     const state = {
@@ -15,6 +16,7 @@ const Register = () => {
     const [user, setUser] = useState(state)
     const [err, seterr] = useState('');
     const { email, password } = user
+    const [loading, setLoading] = useState(false)
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -24,9 +26,12 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true)
             await signInWithEmailAndPassword(auth, email, password)
             Router.push("/")
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
         // const res = await postData('auth/login', user)  
@@ -34,7 +39,9 @@ const Register = () => {
 
     return (
         <div>
-            <h1>login</h1>
+            {
+                loading && <Loading />
+            }
             <form onSubmit={handleSubmit} method="POST">
                 <div>
                     <label htmlFor="email">Email address</label>

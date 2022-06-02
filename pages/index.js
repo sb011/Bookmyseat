@@ -3,12 +3,15 @@ import { getDocs, collection } from 'firebase/firestore/lite';
 import { db } from "../utils/firebaseConfig";
 import Link from 'next/link';
 import { toast } from "react-toastify";
+import Loading from './../components/loading';
 
 const ShowMovies = () => {
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDocs(collection(db, "movies"))
             
             let d = []
@@ -16,13 +19,18 @@ const ShowMovies = () => {
                 d.push({...data.data(), uid: data.id})
             })
             setMovies(d)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
 
     return(
         <div>
+            {
+                loading && <Loading />
+            }
             {
                 movies.length === 0
                 ? <h1>No Movies</h1>

@@ -4,6 +4,7 @@ import { db } from '../utils/firebaseConfig';
 import { getAuth, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { updateEmail } from 'firebase/auth';
 import { toast } from "react-toastify";
+import Loading from './loading';
 
 const ProfileEdit = ({setOnSetting}) => {
     const state = {
@@ -14,18 +15,22 @@ const ProfileEdit = ({setOnSetting}) => {
     const [user, setUser] = useState(state)
     const [password, setPassword] = useState();
     const [err, setErr] = useState('');
+    const [loading, setLoading] = useState(false)
 
     const auth = getAuth();
     useEffect(async () => {
         try {
+            setLoading(true)
             onAuthStateChanged(auth, async (u) => {
                 if(u){
                     const us = await getDoc(doc(db, 'users', `${u.uid}`))
                     const data = us.data()
                     setUser({...state, username: data.username, email: data.email, phone: data.phone})
                 }
-            })    
+            })   
+            setLoading(false) 
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
         // console.log(user)
@@ -39,6 +44,7 @@ const ProfileEdit = ({setOnSetting}) => {
     const handleSubmit = async (e) => {
         try{
             e.preventDefault();
+            setLoading(true)
             onAuthStateChanged(auth, async (u) => {
                 if(u){
                     await setDoc(doc(db, "users", `${u.uid}`), user)
@@ -53,13 +59,18 @@ const ProfileEdit = ({setOnSetting}) => {
                     })
                 }
             })
+            setLoading(false)
         }
         catch(error){
+            setLoading(false)
             return toast.error(error.message)
         }
     }
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <button onClick={() => setOnSetting(false)}>X</button>
             <form onSubmit={handleSubmit}>
                 <div>

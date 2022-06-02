@@ -6,6 +6,7 @@ import Seatting from '../../../components/seatting';
 import moment from 'moment';
 import Router from 'next/router';
 import { toast } from "react-toastify";
+import Loading from './../../../components/loading';
 
 const BookTicket = (props) => {
     const state = {
@@ -25,9 +26,11 @@ const BookTicket = (props) => {
     const [booked, setBooked] = useState([]);
     const [row, setRow] = useState();
     const [col, setCol] = useState();
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDoc(doc(db, 'movies', `${props.id}`))
             setTicket({...ticket, movie: res.data().name, userId: auth.currentUser.uid})
     
@@ -37,7 +40,9 @@ const BookTicket = (props) => {
                 d.push({...data.data(), uid: data.id})
             })
             setCinemas(d)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
@@ -57,6 +62,7 @@ const BookTicket = (props) => {
         setTicket({...ticket, [name]: value, time: ''})
         
         try {
+            setLoading(true)
             const q = query(collection(db, "shows"), where("cinema", "==", ticket.cinema), where("movie", "==", ticket.movie))
             const res = await getDocs(q);
             let d = []
@@ -70,7 +76,9 @@ const BookTicket = (props) => {
             else{
                 setShows([])
             }
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
@@ -78,6 +86,7 @@ const BookTicket = (props) => {
     const handleChangeTime = async (e) => {
         setTicket({...ticket, time: e.target.value})
         try {
+            setLoading(true)
             const q = query(collection(db, "tickets"), where("cinema", "==", ticket.cinema), where("movie", "==", ticket.movie), where("location", "==", ticket.location))
             const res = await getDocs(q);
             let d = []
@@ -89,13 +98,16 @@ const BookTicket = (props) => {
                 }
             })
             setBooked(d)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
     
     const handleSubmit = async () => {
         try {
+            setLoading(true)
             console.log(ticket)
             const res = await addDoc(collection(db, "tickets"), ticket)
 
@@ -104,13 +116,18 @@ const BookTicket = (props) => {
             await setDoc(doc(db, 'shows', `${show.uid}`), show)
         
             Router.push(`/tickets/${res.id}`)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <h1>Ticket</h1>
             <div>
                 <label htmlFor="cinema">cinema</label>

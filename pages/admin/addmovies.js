@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore/lite'
 import { db } from '../../utils/firebaseConfig';
 import { toast } from "react-toastify";
+import Loading from '../../components/loading';
 
 const AddMovies = () => {
     const state = {
@@ -30,6 +31,7 @@ const AddMovies = () => {
     const [err, setErr] = useState('')
     const auth = getAuth()
     const [isUploaded, setIsUploaded] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -86,6 +88,7 @@ const AddMovies = () => {
 
     const handleUpload = async () => {
         try {
+            setLoading(true)
             // console.log(poster, files)
             const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
             // setMovie({...movie, images: res_images})
@@ -95,17 +98,22 @@ const AddMovies = () => {
             // console.log(res_images, res_poster)
             // console.log(movie)
             setIsUploaded(true)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     const handleSubmit = async () => {
         try {
+            setLoading(true)
             console.log(movie)
             await addDoc(collection(db, "movies"), movie)
             setIsUploaded(false)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
@@ -113,6 +121,9 @@ const AddMovies = () => {
     return (
         <div>
             {/* <form> */}
+            {
+                loading && <Loading />
+            }
                 <div>
                     <label htmlFor="name">name</label>
                     <input type="text" id="name" placeholder="name" name="name" value={movie.name} onChange={handleInputChange} />

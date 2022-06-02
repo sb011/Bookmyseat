@@ -4,12 +4,15 @@ import { db } from "../../../utils/firebaseConfig";
 import Router from 'next/router';
 import Link from "next/link"
 import { toast } from "react-toastify";
+import Loading from "../../../components/loading";
 
 const Cinemas = () => {
     const [shows, setShows] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDocs(collection(db, "shows"))
         
             let d = []
@@ -17,23 +20,31 @@ const Cinemas = () => {
                 d.push({...data.data(), uid: data.id})
             })
             setShows(d)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
 
     const handleDelete = async (uid) => {
         try {
+            setLoading(true)
             console.log(uid)
             await deleteDoc(doc(db, "shows", uid));
             Router.push("/admin/showtime")
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <Link href="/admin/showtime/addshow"><a>AddShow</a></Link>
             {
                 shows.length === 0

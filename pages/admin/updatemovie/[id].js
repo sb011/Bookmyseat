@@ -6,6 +6,7 @@ import { setDoc, doc, getDoc } from 'firebase/firestore/lite'
 import { db } from '../../../utils/firebaseConfig';
 import { useRouter } from 'next/router';
 import { toast } from "react-toastify";
+import Loading from '../../../components/loading';
 
 const UpdateMovies = (props) => {
     const state = {
@@ -33,14 +34,18 @@ const UpdateMovies = (props) => {
     const [err, setErr] = useState('')
     const [isUploaded, setIsUploaded] = useState(false)
     const auth = getAuth()
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
         try {
+            setLoading(true)
             const res = await getDoc(doc(db, 'movies', `${props.id}`))
             setMovie(res.data())
             setFiles(res.data().images);
             setPoster(res.data().poster);
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }, [])
@@ -104,27 +109,36 @@ const UpdateMovies = (props) => {
 
     const handleUpload = async () => {
         try {
+            setLoading(true)
             const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
             const res_poster = await upload(`images/${auth.currentUser.uid}`, (poster))
             setMovie({...movie, poster: res_poster, images: res_images, active: active})
             setIsUploaded(true)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     const handleSubmit = async () => {
         try {
+            setLoading(true)
             console.log(movie)
             await setDoc(doc(db, 'movies', `${props.id}`), movie)
             setIsUploaded(false)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <div>
                 <label htmlFor="name">name</label>
                 <input type="text" id="name" placeholder="name" name="name" value={movie.name} onChange={handleInputChange} />

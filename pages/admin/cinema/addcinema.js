@@ -2,6 +2,7 @@ import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
 import { toast } from "react-toastify";
+import Loading from "../../../components/loading";
 
 const AddCinema = () => {
     const state = {
@@ -14,6 +15,7 @@ const AddCinema = () => {
     }
 
     const [cinema, setCinema] = useState(state);
+    const [loading, setLoading] = useState(false)
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -22,14 +24,20 @@ const AddCinema = () => {
 
     const handleSubmit = async () => {
         try {
+            setLoading(true)
             await addDoc(collection(db, "cinemas"), cinema);
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             return toast.error(error.message)
         }
     }
 
     return (
         <div>
+            {
+                loading && <Loading />
+            }
             <div>
                 <label htmlFor="name">name</label>
                 <input type="text" id="name" placeholder="name" name="name" value={cinema.name} onChange={handleInputChange} />
