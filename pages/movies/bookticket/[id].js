@@ -108,15 +108,15 @@ const BookTicket = (props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            console.log(ticket)
             const res = await addDoc(collection(db, "tickets"), ticket)
 
             let show = shows[0];
             show.seatunoccupied = show.seatunoccupied - ticket.seats.length
             await setDoc(doc(db, 'shows', `${show.uid}`), show)
         
-            Router.push(`/tickets/${res.id}`)
             setLoading(false)
+            toast.success("Congratulations, your movie tickets have been successfully reserved.")
+            Router.push(`/tickets/${res.id}`)
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

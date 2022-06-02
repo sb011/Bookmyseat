@@ -30,6 +30,7 @@ const UpdateCinema = (props) => {
             setLoading(true)
             await setDoc(doc(db, 'cinemas', `${props.id}`), cinema)
             setLoading(false)
+            toast.success("The cinema has been updated successfully.")
         } catch (error) {
             return toast.error(error.message)
         }

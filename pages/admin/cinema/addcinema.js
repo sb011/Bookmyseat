@@ -27,6 +27,7 @@ const AddCinema = () => {
             setLoading(true)
             await addDoc(collection(db, "cinemas"), cinema);
             setLoading(false)
+            toast.success("The cinema has been added successfully.")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

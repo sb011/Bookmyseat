@@ -39,7 +39,6 @@ const Movie = (props) => {
             setLoading(false)
             return toast.error(error.message)
         }
-        // console.log(res.data())
     }, [])
 
     return (

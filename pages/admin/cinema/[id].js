@@ -21,7 +21,6 @@ const Cinema = (props) => {
             setLoading(false)
             return toast.error(error.message)
         }
-        // console.log(cinema, res.exists())
     }, [])
 
     return (

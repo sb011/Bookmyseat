@@ -11,8 +11,8 @@ const DeleteMovie = ({ setRemoveMovie, id }) => {
         try {
             setLoading(true)
             await deleteDoc(doc(db, "movies", id));
-            console.log("done")
             setLoading(false)
+            toast.success("The movie has been deleted successfully.")
             Router.push("/admin")
         } catch (error) {
             setLoading(false)

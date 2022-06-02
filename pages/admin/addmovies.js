@@ -89,16 +89,14 @@ const AddMovies = () => {
     const handleUpload = async () => {
         try {
             setLoading(true)
-            // console.log(poster, files)
             const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
             // setMovie({...movie, images: res_images})
             const res_poster = await upload(`images/${auth.currentUser.uid}`, (poster))
             // const trailer = movie.trailer.substring(movie.trailer.lastIndexOf("/") + 1)
             setMovie({...movie, poster: res_poster, images: res_images})
-            // console.log(res_images, res_poster)
-            // console.log(movie)
             setIsUploaded(true)
             setLoading(false)
+            toast.success("The movie has been added successfully.")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)
@@ -108,7 +106,6 @@ const AddMovies = () => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            console.log(movie)
             await addDoc(collection(db, "movies"), movie)
             setIsUploaded(false)
             setLoading(false)

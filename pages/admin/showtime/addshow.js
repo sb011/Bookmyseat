@@ -24,7 +24,6 @@ const AddShow = () => {
             setLoading(true)
             const res = await getDocs(collection(db, "cinemas"))
         
-            console.log(res)
             let d = []
             res.forEach((data) =>{
                 d.push({...data.data(), uid: data.id})
@@ -63,9 +62,9 @@ const AddShow = () => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            // console.log(show)
             await addDoc(collection(db, "shows"), show);
             setLoading(false)
+            toast.success("The show has been successfully added.")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

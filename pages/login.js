@@ -28,8 +28,9 @@ const Register = () => {
         try {
             setLoading(true)
             await signInWithEmailAndPassword(auth, email, password)
-            Router.push("/")
             setLoading(false)
+            toast.success("You are successfully logged in.")
+            Router.push("/")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

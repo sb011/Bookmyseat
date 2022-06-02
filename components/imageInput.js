@@ -38,7 +38,6 @@ const ImageInput = ({ multiple, files, setFiles }) => {
       })
       
       setFiles([...files, ...newFiles])
-      console.log(files)
     }
 
     const allowDrag = (e) => {

@@ -16,7 +16,6 @@ const Seatting = ({ ticket, setTicket, row, col, booked }) => {
             const data = [...ticket.seats, s];
             setTicket({...ticket, seats: data})
         // }
-        console.log(ticket.seats)
     }
 
     const unSelect = (e, index, cindex) => {
@@ -27,7 +26,6 @@ const Seatting = ({ ticket, setTicket, row, col, booked }) => {
             const ans = tick.filter((se) => (se.row != index || se.col != cindex))
             setTicket({...ticket, seats: ans})
         // }
-        console.log(ticket.seats)
     }
 
     const isOccupied = (index, cindex) => {

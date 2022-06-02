@@ -3,5 +3,4 @@ forgot password
 email verfication
 remeber me
 login from google etc
-loading
-security
+payment

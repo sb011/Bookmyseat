@@ -124,10 +124,10 @@ const UpdateMovies = (props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            console.log(movie)
             await setDoc(doc(db, 'movies', `${props.id}`), movie)
             setIsUploaded(false)
             setLoading(false)
+            toast.success("The movie has been successfully updated.")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

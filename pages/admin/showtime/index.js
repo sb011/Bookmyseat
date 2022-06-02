@@ -30,10 +30,10 @@ const Cinemas = () => {
     const handleDelete = async (uid) => {
         try {
             setLoading(true)
-            console.log(uid)
             await deleteDoc(doc(db, "shows", uid));
-            Router.push("/admin/showtime")
             setLoading(false)
+            toast.success("The show has been successfully removed.")
+            Router.push("/admin/showtime")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

@@ -14,13 +14,11 @@ const Cinemas = () => {
             setLoading(true)
             const res = await getDocs(collection(db, "cinemas"))
         
-            console.log(res)
             let d = []
             res.forEach((data) =>{
                 d.push({...data.data(), uid: data.id})
             })
             setCinemas(d)
-            console.log(d)
             setLoading(false)
         } catch (error) {
             setLoading(false)

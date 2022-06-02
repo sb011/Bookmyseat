@@ -36,6 +36,7 @@ const Register = () => {
             if(res.err)
                 return toast.error(res.err);
             else{
+                toast.success("Congratulations, your account has been successfully created.")
                 Router.push("/login")
             }
             setLoading(false)

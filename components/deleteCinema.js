@@ -11,8 +11,8 @@ const DeteleCinema = ({ setRemoveCinema, id }) => {
         try {
             setLoading(true)
             await deleteDoc(doc(db, "cinemas", id));
-            console.log("done")
             setLoading(false)
+            toast.success("The cinema has been deleted successfully.")
             Router.push("/admin/cinema")
         } catch (error) {
             setLoading(false)

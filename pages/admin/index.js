@@ -19,7 +19,6 @@ const ShowMovies = () => {
                 d.push({...data.data(), uid: data.id})
             })
             setMovies(d)
-            console.log(d)
             setLoading(false)
         } catch (error) {
             setLoading(false)

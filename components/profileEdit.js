@@ -33,7 +33,6 @@ const ProfileEdit = ({setOnSetting}) => {
             setLoading(false)
             return toast.error(error.message)
         }
-        // console.log(user)
     }, [])
 
     const handleInputChange = e => {
@@ -60,6 +59,7 @@ const ProfileEdit = ({setOnSetting}) => {
                 }
             })
             setLoading(false)
+            toast.success("The profile has been updated successfully.")
         }
         catch(error){
             setLoading(false)
