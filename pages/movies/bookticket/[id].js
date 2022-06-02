@@ -1,22 +1,29 @@
 import { useEffect, useState } from 'react';
-import { getDocs, getDoc, doc, collection, Timestamp, query, where } from 'firebase/firestore/lite';
+import { addDoc, setDoc, getDocs, getDoc, doc, collection, Timestamp, query, where } from 'firebase/firestore/lite';
 import { db } from '../../../utils/firebaseConfig';
 import { getAuth } from "firebase/auth";
 import Seatting from '../../../components/seatting';
+import moment from 'moment';
+import Router from 'next/router';
 
 const BookTicket = (props) => {
     const state = {
         movie: '',
         cinema: '',
         location: '',
-        date: Date,
+        bookingdate: '',
         time: Timestamp,
+        seats: [],
         userId: ''
     }
 
     const auth = getAuth();
     const [cinemas, setCinemas] = useState([]);
+    const [shows, setShows] = useState([]);
     const [ticket, setTicket] = useState(state);
+    const [booked, setBooked] = useState([]);
+    const [row, setRow] = useState();
+    const [col, setCol] = useState();
 
     useEffect(async () => {
         const res = await getDoc(doc(db, 'movies', `${props.id}`))
@@ -30,20 +37,68 @@ const BookTicket = (props) => {
         setCinemas(d)
     }, [])
 
-    const handleInputChange = e => {
-        const { name, value } = e.target
-        setTicket({...ticket, [name]: value})
+    const handleChangeCinema = (e) => {
+        const cin = cinemas.find((cinema) => e.target.value == cinema.name);
+        const loc = cin ? cin.location : ''
+        setTicket({...ticket, cinema: e.target.value, location: loc, bookingdate: '', time: ''})
+        if(cin){
+            setRow(cin.seatrow)
+            setCol(cin.seatcol)
+        }
     }
 
-    const handleChangeCategory = async (e) => {
-        const cin = cinemas.find((cinema) => e.target.value == cinema.name);
-        setTicket({...ticket, cinema: e.target.value, location: cin.location})
+    const handleInputDate = async (e) => {
+        const { name, value } = e.target
+        setTicket({...ticket, [name]: value, time: ''})
+        
+        try {
+            const q = query(collection(db, "shows"), where("cinema", "==", ticket.cinema), where("movie", "==", ticket.movie))
+            const res = await getDocs(q);
+            let d = []
+            res.forEach((data) =>{
+                d.push({...data.data(), uid: data.id})
+            })
+
+            if(moment(e.target.value).isSameOrAfter(d[0].startDate) && moment(e.target.value).isSameOrBefore(d[0].endDate)){
+                setShows(d)
+            }
+            else{
+                setShows([])
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    const handleChangeTime = async (e) => {
+        setTicket({...ticket, time: e.target.value})
+        try {
+            const q = query(collection(db, "tickets"), where("cinema", "==", ticket.cinema), where("movie", "==", ticket.movie), where("location", "==", ticket.location))
+            const res = await getDocs(q);
+            let d = []
+            res.forEach((data) =>{
+                if(moment(data.data().bookingdate).isSame(ticket.bookingdate) && data.data().time == e.target.value){
+                    data.data().seats.map((s) => {
+                        d.push(s)
+                    })
+                }
+            })
+            setBooked(d)
+        } catch (error) {
+            
+        }
     }
     
     const handleSubmit = async () => {
         try {
             console.log(ticket)
-            // await addDoc(collection(db, "tickets"), ticket);
+            const res = await addDoc(collection(db, "tickets"), ticket)
+
+            let show = shows[0];
+            show.seatunoccupied = show.seatunoccupied - ticket.seats.length
+            await setDoc(doc(db, 'shows', `${show.uid}`), show)
+        
+            Router.push(`/tickets/${res.id}`)
         } catch (error) {
             
         }
@@ -53,16 +108,8 @@ const BookTicket = (props) => {
         <div>
             <h1>Ticket</h1>
             <div>
-                <label htmlFor="date">date</label>
-                <input type="date" id="date" placeholder="date" name="date" value={ticket.date} onChange={handleInputChange} />
-            </div>
-            <div>
-                <label htmlFor="time">time</label>
-                <input type="time" id="time" placeholder="time" name="time" value={ticket.time} onChange={handleInputChange} />
-            </div>
-            <div>
                 <label htmlFor="cinema">cinema</label>
-                <select value={ticket.cinema} onChange={handleChangeCategory} id="cinema">
+                <select value={ticket.cinema} onChange={handleChangeCinema} id="cinema">
                     <option value=""></option>
                     {
                         cinemas.map((cinema, index) => (
@@ -71,7 +118,27 @@ const BookTicket = (props) => {
                     }
                 </select>
             </div>
-            <Seatting />
+            <div>
+                <label htmlFor="bookingdate">bookingdate</label>
+                <input type="date" id="bookingdate" placeholder="bookingdate" name="bookingdate" value={ticket.bookingdate} onChange={handleInputDate} />
+            </div>
+            {
+                ticket.bookingdate && ticket.cinema &&
+                <div>
+                <label htmlFor="time">time</label>
+                <select value={ticket.time} onChange={handleChangeTime} id="time">
+                    <option value=""></option>
+                    {
+                        shows.map((show, index) => (
+                            <option key={index} value={show.startAt}>{show.startAt}</option>
+                        ))
+                    }
+                </select>
+            </div>
+            }
+            {
+                ticket.bookingdate && ticket.cinema && ticket.time && <Seatting ticket={ticket} setTicket={setTicket} row={row} col={col} booked={booked} />
+            }
             <button onClick={handleSubmit}>Submit</button>
         </div>
     )
@@ -82,3 +149,27 @@ export async function getServerSideProps ({params: {id}}) {
 }
 
 export default BookTicket;
+
+
+
+
+// try {
+//     const q = query(collection(db, "shows"), where("cinema", "==", ticket.cinema), where("movie", "==", ticket.movie))
+//     const res = await getDocs(q);
+//     let d = []
+//     res.forEach((data) =>{
+//         d.push({...data.data(), uid: data.id})
+//     })
+
+//     console.log(ticket)
+//     const date = new Date(ticket.date)
+//     // const start = new Date(d[0].startDate)
+//     // const end = new Date(d[0].endDate)
+//     console.log(date)
+//     // if(date < end && date > start){
+//         setShows(d)
+//     // }
+//     console.log(shows.length)
+// } catch (error) {
+    
+// }

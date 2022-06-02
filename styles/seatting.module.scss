@@ -1,25 +1,29 @@
 .body{
     width: 100%;
     height: 100%;
-    .container{
-        .hall{
-            width: 100%;
-            display: flex;
+    .hall{
+        width: 100%;
+        display: flex;
+        margin: 10px;
+        .row{
             margin: 10px;
-            .row{
+            .seat{
+                width: 10px;
+                height: 10px;
+                background: black;
                 margin: 10px;
-                .seat{
-                    width: 10px;
-                    height: 10px;
-                    background: black;
-                    margin: 10px;
-                    &.selected{
-                        background: blue;
-                    }
-                    &.occupied{
-                        background: red;
-                    }
-                }
+            }
+            .selected{
+                width: 10px;
+                height: 10px;
+                margin: 10px;
+                background: blue;
+            }
+            .occupied{
+                width: 10px;
+                height: 10px;
+                background: red;
+                margin: 10px;
             }
         }
     }

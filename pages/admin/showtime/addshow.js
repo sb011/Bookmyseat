@@ -9,7 +9,6 @@ const AddShow = () => {
         endDate: Date,
         movie: '',
         cinema: '',
-        seatoccupied: [],
         seatunoccupied: '',
         totalseat: ''
     }
@@ -59,8 +58,8 @@ const AddShow = () => {
 
     const handleSubmit = async () => {
         try {
-            console.log(show)
-            // await addDoc(collection(db, "shows"), show);
+            // console.log(show)
+            await addDoc(collection(db, "shows"), show);
         } catch (error) {
             
         }

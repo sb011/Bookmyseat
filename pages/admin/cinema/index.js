@@ -24,6 +24,7 @@ const Cinemas = () => {
 
     return (
         <div>
+            <Link href="/admin/cinema/addcinema"><a>Add Cinema</a></Link>
             {
                 cinemas.length === 0
                 ? <h1>No Cinema</h1>

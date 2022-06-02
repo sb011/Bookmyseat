@@ -48,6 +48,14 @@ const Cinemas = () => {
                             <h1 id="cinema" name="cinema">{show.cinema}</h1>
                         </div>
                         <div>
+                            <label htmlFor="seatunoccupied">seatunoccupied</label>
+                            <h1 id="seatunoccupied" name="seatunoccupied">{show.seatunoccupied}</h1>
+                        </div>
+                        <div>
+                            <label htmlFor="totalseat">totalseat</label>
+                            <h1 id="totalseat" name="totalseat">{show.totalseat}</h1>
+                        </div>
+                        <div>
                             <label htmlFor="startAt">startAt</label>
                             <h1 id="startAt" name="startAt">{show.startAt}</h1>
                         </div>
