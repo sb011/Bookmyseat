@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getDoc, setDoc, doc } from "firebase/firestore/lite";
 import { db } from '../../../../utils/firebaseConfig'
+import { toast } from "react-toastify";
 
 const UpdateCinema = (props) => {
     const [cinema, setCinema] = useState({});
@@ -10,7 +11,7 @@ const UpdateCinema = (props) => {
             const res = await getDoc(doc(db, 'cinemas', `${props.id}`))
             setCinema(res.data())
         } catch (error) {
-            console.log(error.message)
+            return toast.error(error.message)
         }
     }, []);
 
@@ -23,8 +24,7 @@ const UpdateCinema = (props) => {
         try {
             await setDoc(doc(db, 'cinemas', `${props.id}`), cinema)
         } catch (error) {
-            setErr(error.message)
-            console.log(error.message)
+            return toast.error(error.message)
         }
     }
 

@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import Seatting from '../../../components/seatting';
 import moment from 'moment';
 import Router from 'next/router';
+import { toast } from "react-toastify";
 
 const BookTicket = (props) => {
     const state = {
@@ -37,7 +38,7 @@ const BookTicket = (props) => {
             })
             setCinemas(d)
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 
@@ -70,7 +71,7 @@ const BookTicket = (props) => {
                 setShows([])
             }
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
 
@@ -89,7 +90,7 @@ const BookTicket = (props) => {
             })
             setBooked(d)
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
     
@@ -104,7 +105,7 @@ const BookTicket = (props) => {
         
             Router.push(`/tickets/${res.id}`)
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
 

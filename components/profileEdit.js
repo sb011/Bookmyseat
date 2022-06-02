@@ -3,6 +3,7 @@ import { setDoc, doc, getDoc } from 'firebase/firestore/lite'
 import { db } from '../utils/firebaseConfig';
 import { getAuth, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { updateEmail } from 'firebase/auth';
+import { toast } from "react-toastify";
 
 const ProfileEdit = ({setOnSetting}) => {
     const state = {
@@ -25,7 +26,7 @@ const ProfileEdit = ({setOnSetting}) => {
                 }
             })    
         } catch (error) {
-            
+            return toast.error(error.message)
         }
         // console.log(user)
     }, [])
@@ -54,7 +55,7 @@ const ProfileEdit = ({setOnSetting}) => {
             })
         }
         catch(error){
-            setErr(error.message);
+            return toast.error(error.message)
         }
     }
     return (

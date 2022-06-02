@@ -3,6 +3,7 @@ import { db } from '../../utils/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore/lite';
 import Link from 'next/link';
 import DeleteMovie from '../../components/deleteMovie';
+import { toast } from "react-toastify";
 
 const Movie = (props) => {
     const state = {
@@ -31,7 +32,7 @@ const Movie = (props) => {
             const res = await getDoc(doc(db, 'movies', `${props.id}`))
             setMovie(res.data())
         } catch (error) {
-            
+            return toast.error(error.message)
         }
         // console.log(res.data())
     }, [])

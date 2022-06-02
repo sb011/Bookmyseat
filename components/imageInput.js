@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 const ImageInput = ({ multiple, files, setFiles }) => {
     const [err, setErr] = useState('')
@@ -20,20 +21,17 @@ const ImageInput = ({ multiple, files, setFiles }) => {
   
       Array.from(images).map(file => {
         if(!file){
-          setErr("File does not exist.")
-          return
+          return toast.error("File does not exist.")
         }
   
         const types = ['image/png', 'image/jpeg', 'image/gif']
 
         if(!types.includes(file.type)){
-          setErr("The image type is png / jpeg / gif.")
-          return
+          return toast.error("The image type is png / jpeg / gif.")
         }
   
         if(file.size > 1024 * 1024){
-          setErr("The largest image size is 1mb.")
-          return
+          return toast.error("The largest image size is 1mb.")
         }
   
         return newFiles.push(file) 

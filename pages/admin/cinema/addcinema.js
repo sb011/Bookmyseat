@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
+import { toast } from "react-toastify";
 
 const AddCinema = () => {
     const state = {
@@ -23,7 +24,7 @@ const AddCinema = () => {
         try {
             await addDoc(collection(db, "cinemas"), cinema);
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
 

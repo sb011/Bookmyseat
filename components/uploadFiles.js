@@ -1,5 +1,6 @@
 import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../utils/firebaseConfig';
+import { toast } from "react-toastify";
 
 // export const upload = async (folder, files) => {
 //   const promises = []
@@ -58,15 +59,18 @@ export const upload = async (folder, files) => {
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
           case 'storage/unauthorized':
+            toast.error(error.message)
             // User doesn't have permission to access the object
             break;
           case 'storage/canceled':
+            toast.error(error.message)
             // User canceled the upload
             break;
     
           // ...
     
           case 'storage/unknown':
+            toast.error(error.message)
             // Unknown error occurred, inspect error.serverResponse
             break;
         }
@@ -98,7 +102,6 @@ export const uploadFiles = async (folder, files) => {
 
   const result = await Promise.all(promises)
   const urlPromises = result.map(async item => {
-    console.log("yeas")
     const path = item.ref.toString()
     return await downloadFile(path)
   })
@@ -111,7 +114,7 @@ export const downloadFile = async (path) => {
   await getDownloadURL(ref(storage, path))
   .then(url => item = url)
   .catch(err => {
-    // return toast.error(err.message)
+    return toast.error(err.message)
   })
 
   return item;
@@ -132,6 +135,6 @@ export const getFiles = async (folder, callback) => {
     return Promise.all(urlPromises).then(urls => callback(urls))
   })
   .catch(err => {
-    // return toast.error(err.message)
+    return toast.error(err.message)
   })
 }

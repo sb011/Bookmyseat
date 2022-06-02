@@ -2,6 +2,7 @@ import { getDocs, collection, query, where } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { db } from "../../utils/firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const ShowTickets = () => {
     const [tickets, setTickets] = useState([])
@@ -19,7 +20,7 @@ const ShowTickets = () => {
                 setTickets(d)
             })
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 

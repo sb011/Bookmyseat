@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc } from 'firebase/firestore/lite';
 import { db } from '../utils/firebaseConfig';
+import { toast } from "react-toastify";
 
 const ProfileInfo = ({ setOnSetting }) => {
     const state = {
@@ -22,7 +23,7 @@ const ProfileInfo = ({ setOnSetting }) => {
                 }
             })
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 

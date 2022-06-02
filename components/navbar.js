@@ -3,6 +3,7 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore/lite";
 import { db } from "../utils/firebaseConfig";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
     const state = {
@@ -25,7 +26,7 @@ const Navbar = () => {
                 }
             })
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 
@@ -33,7 +34,7 @@ const Navbar = () => {
         try {
             await signOut(auth);
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
     return(

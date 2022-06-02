@@ -4,6 +4,8 @@ import Router from 'next/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from '../utils/firebaseConfig';
 import Layout from '../components/Layout';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }) {
   const auth = getAuth(app);
@@ -32,6 +34,16 @@ function MyApp({ Component, pageProps }) {
   return (
       <Layout>
         <Component {...pageProps} />
+        <ToastContainer
+          position="top-right"
+          autoClose={8000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggable={false}
+          pauseOnVisibilityChange
+          closeOnClick
+          pauseOnHover
+        />
       </Layout>
   );
 }

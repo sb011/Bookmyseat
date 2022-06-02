@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getDoc, doc } from 'firebase/firestore/lite';
 import { db } from '../../utils/firebaseConfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 const Ticket = (props) => { 
     const [ticket, setTicket] = useState({})
@@ -22,7 +23,7 @@ const Ticket = (props) => {
                 }
             })
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
     return (

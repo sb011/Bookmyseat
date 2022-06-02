@@ -3,6 +3,7 @@ import { getDocs, collection, doc, deleteDoc } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
 import Router from 'next/router';
 import Link from "next/link"
+import { toast } from "react-toastify";
 
 const Cinemas = () => {
     const [shows, setShows] = useState([]);
@@ -17,7 +18,7 @@ const Cinemas = () => {
             })
             setShows(d)
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 
@@ -27,7 +28,7 @@ const Cinemas = () => {
             await deleteDoc(doc(db, "shows", uid));
             Router.push("/admin/showtime")
         } catch (error) {
-            console.log(error.message)
+            return toast.error(error.message)
         }
     }
 

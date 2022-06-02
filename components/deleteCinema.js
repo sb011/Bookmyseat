@@ -1,6 +1,7 @@
 import { deleteDoc, doc } from "firebase/firestore/lite";
 import { db } from "../utils/firebaseConfig";
 import Router from "next/router"
+import { toast } from "react-toastify";
 
 const DeteleCinema = ({ setRemoveCinema, id }) => {
     const handleDelete = async () => {
@@ -9,7 +10,7 @@ const DeteleCinema = ({ setRemoveCinema, id }) => {
             console.log("done")
             Router.push("/admin/cinema")
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
 

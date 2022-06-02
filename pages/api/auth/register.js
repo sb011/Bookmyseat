@@ -27,7 +27,7 @@ const register = async (req, res) => {
             phone: phone,
             role: 'user'
         })
-        // console.log(response.user)
+        
         return res.json({
             msg: "Register Successfully",
             user: response.user

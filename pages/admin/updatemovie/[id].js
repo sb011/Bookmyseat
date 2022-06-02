@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { setDoc, doc, getDoc } from 'firebase/firestore/lite'
 import { db } from '../../../utils/firebaseConfig';
 import { useRouter } from 'next/router';
+import { toast } from "react-toastify";
 
 const UpdateMovies = (props) => {
     const state = {
@@ -40,7 +41,7 @@ const UpdateMovies = (props) => {
             setFiles(res.data().images);
             setPoster(res.data().poster);
         } catch (error) {
-            console.log(error.message)
+            return toast.error(error.message)
         }
     }, [])
 
@@ -108,7 +109,7 @@ const UpdateMovies = (props) => {
             setMovie({...movie, poster: res_poster, images: res_images, active: active})
             setIsUploaded(true)
         } catch (error) {
-            setErr(error.message)
+            return toast.error(error.message)
         }
     }
 
@@ -118,8 +119,7 @@ const UpdateMovies = (props) => {
             await setDoc(doc(db, 'movies', `${props.id}`), movie)
             setIsUploaded(false)
         } catch (error) {
-            setErr(error.message)
-            console.log(error.message)
+            return toast.error(error.message)
         }
     }
 

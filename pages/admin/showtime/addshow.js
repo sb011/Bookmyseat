@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { addDoc, collection, Timestamp, getDocs } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
+import { toast } from "react-toastify";
 
 const AddShow = () => {
     const state = {
@@ -36,7 +37,7 @@ const AddShow = () => {
             })
             setMovies(d_movie)
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 
@@ -60,7 +61,7 @@ const AddShow = () => {
             // console.log(show)
             await addDoc(collection(db, "shows"), show);
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }
 

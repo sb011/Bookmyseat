@@ -3,6 +3,7 @@ import { getDoc, doc } from 'firebase/firestore/lite';
 import { db } from '../../../utils/firebaseConfig';
 import Link from 'next/link';
 import DeteleCinema from './../../../components/deleteCinema';
+import { toast } from "react-toastify";
 
 const Cinema = (props) => {
     const [cinema, setCinema] = useState({});
@@ -13,7 +14,7 @@ const Cinema = (props) => {
             const res = await getDoc(doc(db, 'cinemas', `${props.id}`))
             setCinema(res.data())
         } catch (error) {
-            
+            return toast.error(error.message)
         }
         // console.log(cinema, res.exists())
     }, [])

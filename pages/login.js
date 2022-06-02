@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Router from 'next/router'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../utils/firebaseConfig";
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const state = {
@@ -23,11 +24,10 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await signInWithEmailAndPassword(auth, email, password)
-            localStorage.setItem('isLogin', true)
+            await signInWithEmailAndPassword(auth, email, password)
             Router.push("/")
         } catch (error) {
-            seterr(error.message)
+            return toast.error(error.message)
         }
         // const res = await postData('auth/login', user)  
     }

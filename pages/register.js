@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import vaild from '../utils/valid';
 import { postData } from '../utils/fetchData';
 import Router from "next/router";
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const state = {
@@ -14,7 +15,6 @@ const Register = () => {
     }
 
     const [user, setUser] = useState(state)
-    const [err, seterr] = useState('');
     const { username, email, phone, password, c_password } = user
 
     const handleInputChange = e => {
@@ -27,17 +27,16 @@ const Register = () => {
             e.preventDefault()
             const err = vaild(username, email, phone, password, c_password)
             if(err)
-                seterr(err);
+                return toast.error(err);
                 
             const res = await postData('auth/register', user)  
             if(res.err)
-                seterr(res.err)
+                return toast.error(res.err);
             else{
-                localStorage.setItem('isLogin', true)
                 Router.push("/login")
             }
         } catch (error) {
-            
+            return toast.error(res.err);
         }
     }
 
@@ -66,7 +65,6 @@ const Register = () => {
                     <label htmlFor="c_password">Confirm Password</label>
                     <input type="password" id="c_password" placeholder="Confirm Password" name="c_password" value={c_password} onChange={handleInputChange} />
                 </div>
-                <p>{err}</p>
                 <button type="submit">Register</button>
                 <p>Already have an account? <Link href="/login"><a>Login</a></Link></p>
             </form>

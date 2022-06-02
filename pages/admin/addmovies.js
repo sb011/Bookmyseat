@@ -4,6 +4,7 @@ import { upload } from '../../components/uploadFiles';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore/lite'
 import { db } from '../../utils/firebaseConfig';
+import { toast } from "react-toastify";
 
 const AddMovies = () => {
     const state = {
@@ -95,7 +96,7 @@ const AddMovies = () => {
             // console.log(movie)
             setIsUploaded(true)
         } catch (error) {
-            setErr(error.message)
+            return toast.error(error.message)
         }
     }
 
@@ -105,8 +106,7 @@ const AddMovies = () => {
             await addDoc(collection(db, "movies"), movie)
             setIsUploaded(false)
         } catch (error) {
-            setErr(error.message)
-            console.log(error.message)
+            return toast.error(error.message)
         }
     }
 

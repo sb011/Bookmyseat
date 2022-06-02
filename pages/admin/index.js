@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { getDocs, collection, doc } from 'firebase/firestore/lite';
 import { db } from "../../utils/firebaseConfig";
 import Link from 'next/link';
+import { toast } from "react-toastify";
 
 const ShowMovies = () => {
     const [movies, setMovies] = useState([]);
@@ -17,7 +18,7 @@ const ShowMovies = () => {
             setMovies(d)
             console.log(d)
         } catch (error) {
-            
+            return toast.error(error.message)
         }
     }, [])
 
