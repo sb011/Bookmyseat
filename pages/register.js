@@ -23,17 +23,21 @@ const Register = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const err = vaild(username, email, phone, password, c_password)
-        if(err)
-            seterr(err);
+        try {
+            e.preventDefault()
+            const err = vaild(username, email, phone, password, c_password)
+            if(err)
+                seterr(err);
+                
+            const res = await postData('auth/register', user)  
+            if(res.err)
+                seterr(res.err)
+            else{
+                localStorage.setItem('isLogin', true)
+                Router.push("/login")
+            }
+        } catch (error) {
             
-        const res = await postData('auth/register', user)  
-        if(res.err)
-            seterr(res.err)
-        else{
-            localStorage.setItem('isLogin', true)
-            Router.push("/login")
         }
     }
 

@@ -16,13 +16,17 @@ const Navbar = () => {
     const [user, setUser] = useState(state)
 
     useEffect(() => {
-        onAuthStateChanged(auth, async (u) => {
-            if(u){
-                const us = await getDoc(doc(db, 'users', `${u.uid}`))
-                const data = us.data()
-                setUser({...state, username: data.username, email: data.email, phone: data.phone, role: data.role})
-            }
-        })
+        try {
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                    const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                    const data = us.data()
+                    setUser({...state, username: data.username, email: data.email, phone: data.phone, role: data.role})
+                }
+            })
+        } catch (error) {
+            
+        }
     }, [])
 
     const handleLogout = async () => {
@@ -46,9 +50,6 @@ const Navbar = () => {
                         </ul>
                     }
                     <ul>
-                        {
-                            user.role == "admin" && <li><Link href="/admin"><a>Admin</a></Link></li>
-                        }
                         <li><Link href="/"><a>Home</a></Link></li>
                         <li><Link href="/profile"><a>Profile</a></Link></li>
                         <li><button onClick={handleLogout}>logout</button></li>

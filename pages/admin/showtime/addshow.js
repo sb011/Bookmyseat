@@ -9,7 +9,6 @@ const AddShow = () => {
         endDate: Date,
         movie: '',
         cinema: '',
-        seatunoccupied: '',
         totalseat: ''
     }
 
@@ -49,7 +48,7 @@ const AddShow = () => {
     const handleChangeCategoryCinema = async (e) => {
         const sh = cinemas.find((cinema) => e.target.value == cinema.name);
         const totalseat = sh.seatcol * sh.seatrow;
-        setShow({...show, cinema: e.target.value, seatunoccupied: totalseat, totalseat: totalseat})
+        setShow({...show, cinema: e.target.value, totalseat: totalseat})
     }
 
     const handleChangeCategoryMovie = async (e) => {

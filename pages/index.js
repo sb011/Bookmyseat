@@ -7,14 +7,18 @@ const ShowMovies = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(async () => {
-        const res = await getDocs(collection(db, "movies"))
-        
-        let d = []
-        res.forEach((data) =>{
-            d.push({...data.data(), uid: data.id})
-        })
-        setMovies(d)
-        console.log(d)
+        try {
+            const res = await getDocs(collection(db, "movies"))
+            
+            let d = []
+            res.forEach((data) =>{
+                d.push({...data.data(), uid: data.id})
+            })
+            setMovies(d)
+            console.log(d)
+        } catch (error) {
+            
+        }
     }, [])
 
     return(

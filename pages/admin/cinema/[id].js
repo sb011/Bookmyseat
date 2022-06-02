@@ -9,8 +9,12 @@ const Cinema = (props) => {
     const [removeCinema, setRemoveCinema] = useState(false)
 
     useEffect(async () => {
-        const res = await getDoc(doc(db, 'cinemas', `${props.id}`))
-        setCinema(res.data())
+        try {
+            const res = await getDoc(doc(db, 'cinemas', `${props.id}`))
+            setCinema(res.data())
+        } catch (error) {
+            
+        }
         // console.log(cinema, res.exists())
     }, [])
 

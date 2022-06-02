@@ -10,13 +10,13 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     onAuthStateChanged(auth, async (u) => {
       // console.log(u)
-      if(u != null && (Router.pathname == "/login" || Router.pathname == "/register")){
-        Router.push("/");
-      }
-      else if(Router.pathname != "/login" || Router.pathname != "/register"){
+      if(Router.pathname != "/login" || Router.pathname != "/register"){
         if(u == null){
           Router.push("/login")
         }
+      }
+      else if(u != null && (Router.pathname == "/login" || Router.pathname == "/register")){
+        Router.push("/");
       }
     })
     // if(localStorage.getItem("isLogin") && (Router.pathname == "/login" || Router.pathname == "/register")){

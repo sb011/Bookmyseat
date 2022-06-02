@@ -16,14 +16,17 @@ const ProfileEdit = ({setOnSetting}) => {
 
     const auth = getAuth();
     useEffect(async () => {
-        onAuthStateChanged(auth, async (u) => {
-            if(u){
-                const us = await getDoc(doc(db, 'users', `${u.uid}`))
-                const data = us.data()
-                setUser({...state, username: data.username, email: data.email, phone: data.phone})
-            }
-        })
-        
+        try {
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                    const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                    const data = us.data()
+                    setUser({...state, username: data.username, email: data.email, phone: data.phone})
+                }
+            })    
+        } catch (error) {
+            
+        }
         // console.log(user)
     }, [])
 

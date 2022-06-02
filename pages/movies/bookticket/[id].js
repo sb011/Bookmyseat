@@ -26,15 +26,19 @@ const BookTicket = (props) => {
     const [col, setCol] = useState();
 
     useEffect(async () => {
-        const res = await getDoc(doc(db, 'movies', `${props.id}`))
-        setTicket({...ticket, movie: res.data().name, userId: auth.currentUser.uid})
-
-        const res_cinema = await getDocs(collection(db, "cinemas"))
-        let d = []
-        res_cinema.forEach((data) =>{
-            d.push({...data.data(), uid: data.id})
-        })
-        setCinemas(d)
+        try {
+            const res = await getDoc(doc(db, 'movies', `${props.id}`))
+            setTicket({...ticket, movie: res.data().name, userId: auth.currentUser.uid})
+    
+            const res_cinema = await getDocs(collection(db, "cinemas"))
+            let d = []
+            res_cinema.forEach((data) =>{
+                d.push({...data.data(), uid: data.id})
+            })
+            setCinemas(d)
+        } catch (error) {
+            
+        }
     }, [])
 
     const handleChangeCinema = (e) => {

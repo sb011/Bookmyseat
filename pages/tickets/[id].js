@@ -10,16 +10,20 @@ const Ticket = (props) => {
     const auth = getAuth()
 
     useEffect(async () => {
-        const res = await getDoc(doc(db, 'tickets', `${props.id}`))
-        setTicket(res.data())
-        setSeats(res.data().seats)
-        onAuthStateChanged(auth, async (u) => {
-            if(u){
-                const us = await getDoc(doc(db, 'users', `${u.uid}`))
-                const data = us.data()
-                setUser(data.username)
-            }
-        })
+        try {
+            const res = await getDoc(doc(db, 'tickets', `${props.id}`))
+            setTicket(res.data())
+            setSeats(res.data().seats)
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                    const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                    const data = us.data()
+                    setUser(data.username)
+                }
+            })
+        } catch (error) {
+            
+        }
     }, [])
     return (
         <div>

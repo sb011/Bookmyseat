@@ -26,8 +26,12 @@ const Movie = (props) => {
     const [removeMovie, setRemoveMovie] = useState(false);
 
     useEffect(async () => {
-        const res = await getDoc(doc(db, 'movies', `${props.id}`))
-        setMovie(res.data())
+        try {
+            const res = await getDoc(doc(db, 'movies', `${props.id}`))
+            setMovie(res.data())
+        } catch (error) {
+            
+        }
         // console.log(res.data())
     }, [])
 
