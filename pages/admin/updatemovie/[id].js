@@ -7,6 +7,7 @@ import { db } from '../../../utils/firebaseConfig';
 import { useRouter } from 'next/router';
 import { toast } from "react-toastify";
 import Loading from '../../../components/loading';
+import Router from 'next/router';
 
 const UpdateMovies = (props) => {
     const state = {
@@ -128,6 +129,7 @@ const UpdateMovies = (props) => {
             setIsUploaded(false)
             setLoading(false)
             toast.success("The movie has been successfully updated.")
+            Router.push(`/admin/${props.id}`)
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

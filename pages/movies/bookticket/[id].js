@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { addDoc, setDoc, getDocs, getDoc, doc, collection, Timestamp, query, where } from 'firebase/firestore/lite';
+import { addDoc, getDocs, getDoc, doc, collection, Timestamp, query, where } from 'firebase/firestore/lite';
 import { db } from '../../../utils/firebaseConfig';
 import { getAuth } from "firebase/auth";
 import Seatting from '../../../components/seatting';
@@ -109,11 +109,6 @@ const BookTicket = (props) => {
         try {
             setLoading(true)
             const res = await addDoc(collection(db, "tickets"), ticket)
-
-            let show = shows[0];
-            show.seatunoccupied = show.seatunoccupied - ticket.seats.length
-            await setDoc(doc(db, 'shows', `${show.uid}`), show)
-        
             setLoading(false)
             toast.success("Congratulations, your movie tickets have been successfully reserved.")
             Router.push(`/tickets/${res.id}`)

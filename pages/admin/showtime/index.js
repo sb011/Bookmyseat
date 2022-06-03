@@ -33,7 +33,7 @@ const Cinemas = () => {
             await deleteDoc(doc(db, "shows", uid));
             setLoading(false)
             toast.success("The show has been successfully removed.")
-            Router.push("/admin/showtime")
+            Router.reload()
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

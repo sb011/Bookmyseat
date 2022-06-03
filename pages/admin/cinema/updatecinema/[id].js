@@ -3,6 +3,7 @@ import { getDoc, setDoc, doc } from "firebase/firestore/lite";
 import { db } from '../../../../utils/firebaseConfig'
 import { toast } from "react-toastify";
 import Loading from "../../../../components/loading";
+import Router from 'next/router';
 
 const UpdateCinema = (props) => {
     const [cinema, setCinema] = useState({});
@@ -31,6 +32,7 @@ const UpdateCinema = (props) => {
             await setDoc(doc(db, 'cinemas', `${props.id}`), cinema)
             setLoading(false)
             toast.success("The cinema has been updated successfully.")
+            Router.push(`/admin/cinema/${props.id}`)
         } catch (error) {
             return toast.error(error.message)
         }

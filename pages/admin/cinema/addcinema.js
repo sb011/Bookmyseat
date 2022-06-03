@@ -3,6 +3,7 @@ import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loading";
+import Router from 'next/router';
 
 const AddCinema = () => {
     const state = {
@@ -28,6 +29,7 @@ const AddCinema = () => {
             await addDoc(collection(db, "cinemas"), cinema);
             setLoading(false)
             toast.success("The cinema has been added successfully.")
+            Router.push("/admin/cinema")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

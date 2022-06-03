@@ -5,6 +5,9 @@ import { db } from "../utils/firebaseConfig";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Loading from "./loading";
+import styles from "../styles/navbar.module.scss"
+import logo from "../public/logo4.png"
+import Image from "next/image";
 
 const Navbar = () => {
     const state = {
@@ -46,7 +49,7 @@ const Navbar = () => {
         }
     }
     return(
-        <>
+        <div className={styles.container}>
             {
                 loading && <Loading />
             }
@@ -55,20 +58,26 @@ const Navbar = () => {
                 <>
                     {
                         user.role == "admin" && 
-                        <ul>
-                            <li><Link href="/admin"><a>Movies</a></Link></li>
-                            <li><Link href="/admin/cinema"><a>Cinemas</a></Link></li>
-                            <li><Link href="/admin/showtime"><a>ShowTime</a></Link></li>
+                        <ul className={styles.adminul}>
+                            <li className={styles.adminli}><Link href="/admin"><a>Movies</a></Link></li>
+                            <li className={styles.adminli}><Link href="/admin/cinema"><a>Cinemas</a></Link></li>
+                            <li className={styles.adminli}><Link href="/admin/showtime"><a>ShowTime</a></Link></li>
                         </ul>
                     }
-                    <ul>
-                        <li><Link href="/"><a>Home</a></Link></li>
-                        <li><Link href="/profile"><a>Profile</a></Link></li>
-                        <li><button onClick={handleLogout}>logout</button></li>
+                    <ul className={styles.ul}>
+                        <div className={styles.cont_logo}>
+                            <Image src={logo} alt="logo" className={styles.logo} />
+                        </div>
+                        <div className={styles.item}>
+                        <li className={styles.li}><Link href="/"><a>Home</a></Link></li>
+                        <li className={styles.li}><Link href="/tickets"><a>Tickets</a></Link></li>
+                        <li className={styles.li}><Link href="/profile"><a>Profile</a></Link></li>
+                        <li className={styles.li}><a onClick={handleLogout}>logout</a></li>
+                        </div>
                     </ul>
                 </>
             }
-        </>
+        </div>
     )
 }
 

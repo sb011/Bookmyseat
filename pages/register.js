@@ -5,6 +5,9 @@ import { postData } from '../utils/fetchData';
 import Router from "next/router";
 import { toast } from 'react-toastify';
 import Loading from '../components/loading';
+import styles from '../styles/auth.module.scss'
+import bg from "../public/bg1.jpg"
+import Image from 'next/image'
 
 const Register = () => {
     const state = {
@@ -47,34 +50,39 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             {
                 loading && <Loading />
             }
-            <form onSubmit={handleSubmit} method="POST">
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" placeholder="Username" name="username" value={username} onChange={handleInputChange} />
+            <div className={styles.cont_bg}>
+                <Image className={styles.backgorund} src={bg} alt="background"/>
+            </div>
+            <form onSubmit={handleSubmit} method="POST" className={styles.form2}>
+                <h1 className={styles.title}>Register</h1>
+                <div className={styles.main}>
+                    <label htmlFor="username" className={styles.label}>Username</label>
+                    <input className={styles.input} type="text" id="username" placeholder="Username" name="username" value={username} onChange={handleInputChange} autoFocus />
                 </div>
-                <div>
-                    <label htmlFor="email">Email address</label>
-                    <input type="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={email} onChange={handleInputChange} />
-                    <small id="emailHelp">We'll never share your email with anyone else.</small>
+                <div className={styles.main}>
+                    <label htmlFor="email" className={styles.label}>Email address</label>
+                    <input className={styles.input} type="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={email} onChange={handleInputChange} />
                 </div>
-                <div>
-                    <label htmlFor="phone">Phone No.</label>
-                    <input type="number" id="phone" placeholder="Phone no." name="phone" value={phone} onChange={handleInputChange} />
+                <div className={styles.main}>
+                    <label htmlFor="phone" className={styles.label}>Phone No.</label>
+                    <input className={styles.input} type="number" id="phone" placeholder="Phone no." name="phone" value={phone} onChange={handleInputChange} />
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" name="password" value={password} onChange={handleInputChange} />
+                <div className={styles.main}>
+                    <label htmlFor="password" className={styles.label}>Password</label>
+                    <input className={styles.input} type="password" id="password" placeholder="Password" name="password" value={password} onChange={handleInputChange} />
                 </div>
-                <div>
-                    <label htmlFor="c_password">Confirm Password</label>
-                    <input type="password" id="c_password" placeholder="Confirm Password" name="c_password" value={c_password} onChange={handleInputChange} />
+                <div className={styles.main}>
+                    <label htmlFor="c_password" className={styles.label}>Confirm Password</label>
+                    <input className={styles.input} type="password" id="c_password" placeholder="Confirm Password" name="c_password" value={c_password} onChange={handleInputChange} />
                 </div>
-                <button type="submit">Register</button>
-                <p>Already have an account? <Link href="/login"><a>Login</a></Link></p>
+                <div className={styles.cont_button}>
+                    <button type="submit" className={styles.button}>Register</button>
+                </div>
+                <p className={styles.login}>Already have an account? <Link href="/login"><a className={styles.link}>Login</a></Link></p>
             </form>
         </div>
     )

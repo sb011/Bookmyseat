@@ -5,6 +5,9 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../utils/firebaseConfig";
 import { toast } from 'react-toastify';
 import Loading from '../components/loading';
+import styles from "../styles/auth.module.scss";
+import Image from 'next/image';
+import bg from "../public/bg2.jpg"
 
 const Register = () => {
     const state = {
@@ -14,7 +17,6 @@ const Register = () => {
 
     const auth = getAuth(app);
     const [user, setUser] = useState(state)
-    const [err, seterr] = useState('');
     const { email, password } = user
     const [loading, setLoading] = useState(false)
 
@@ -39,22 +41,27 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             {
                 loading && <Loading />
             }
-            <form onSubmit={handleSubmit} method="POST">
-                <div>
-                    <label htmlFor="email">Email address</label>
-                    <input type="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={email} onChange={handleInputChange} />
+            <div className={styles.cont_bg}>
+                <Image className={styles.backgorund} src={bg} alt="background"/>
+            </div>
+            <form onSubmit={handleSubmit} method="POST" className={styles.form}>
+                <h1 className={styles.title}>Login</h1>
+                <div className={styles.main}>
+                    <label htmlFor="email" className={styles.label}>Email address</label>
+                    <input className={styles.input} type="email" id="email" placeholder="Email address" aria-describedby="emailHelp" name="email" value={email} onChange={handleInputChange} autoFocus />
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" name="password" value={password} onChange={handleInputChange} />
+                <div className={styles.main}>
+                    <label htmlFor="password" className={styles.label}>Password</label>
+                    <input className={styles.input} type="password" id="password" placeholder="password" name="password" value={password} onChange={handleInputChange} />
                 </div>
-                <p>{err}</p>
-                <button type="submit">Login</button>
-                <p>Don't have an account? <Link href="/register"><a>Register</a></Link></p>
+                <div className={styles.cont_button}>
+                    <button type="submit" className={styles.button}>Login</button>
+                </div>
+                <p className={styles.login}>Don't have an account? <Link href="/register"><a className={styles.link}>Register</a></Link></p>
             </form>
         </div>
     )

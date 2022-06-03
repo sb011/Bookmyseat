@@ -6,6 +6,7 @@ import { addDoc, collection } from 'firebase/firestore/lite'
 import { db } from '../../utils/firebaseConfig';
 import { toast } from "react-toastify";
 import Loading from '../../components/loading';
+import Router from 'next/router';
 
 const AddMovies = () => {
     const state = {
@@ -97,6 +98,7 @@ const AddMovies = () => {
             setIsUploaded(true)
             setLoading(false)
             toast.success("The movie has been added successfully.")
+            Router.push("/admin");
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)

@@ -3,6 +3,8 @@ import { addDoc, collection, Timestamp, getDocs } from "firebase/firestore/lite"
 import { db } from "../../../utils/firebaseConfig";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loading";
+import Router from 'next/router';
+
 
 const AddShow = () => {
     const state = {
@@ -65,6 +67,7 @@ const AddShow = () => {
             await addDoc(collection(db, "shows"), show);
             setLoading(false)
             toast.success("The show has been successfully added.")
+            Router.push("/admin/showtime")
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)
