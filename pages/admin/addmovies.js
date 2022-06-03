@@ -7,6 +7,9 @@ import { db } from '../../utils/firebaseConfig';
 import { toast } from "react-toastify";
 import Loading from '../../components/loading';
 import Router from 'next/router';
+import styles from "../../styles/adding.module.scss";
+import close from "../../public/cancel.svg";
+import Image from "next/image"
 
 const AddMovies = () => {
     const state = {
@@ -97,8 +100,6 @@ const AddMovies = () => {
             setMovie({...movie, poster: res_poster, images: res_images})
             setIsUploaded(true)
             setLoading(false)
-            toast.success("The movie has been added successfully.")
-            Router.push("/admin");
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)
@@ -111,6 +112,8 @@ const AddMovies = () => {
             await addDoc(collection(db, "movies"), movie)
             setIsUploaded(false)
             setLoading(false)
+            toast.success("The movie has been added successfully.")
+            Router.push("/admin");
         } catch (error) {
             setLoading(false)
             return toast.error(error.message)
@@ -118,111 +121,129 @@ const AddMovies = () => {
     }
 
     return (
-        <div>
-            {/* <form> */}
+        <div className={styles.contain}>
+            <div className={styles.add_form}>
             {
                 loading && <Loading />
             }
-                <div>
-                    <label htmlFor="name">name</label>
-                    <input type="text" id="name" placeholder="name" name="name" value={movie.name} onChange={handleInputChange} />
+                <div className={styles.add_simple}>
+                    <div className={styles.add_main}>
+                        <label htmlFor="name" className={styles.add_label}>name</label>
+                        <input className={styles.add_input} type="text" id="name" placeholder="name" name="name" value={movie.name} onChange={handleInputChange} autoFocus/>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="description" className={styles.add_label}>description</label>
+                        <input className={styles.add_input} type="text" id="description" placeholder="description" name="description" value={movie.description} onChange={handleInputChange} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="trailer" className={styles.add_label}>trailer</label>
+                        <input className={styles.add_input} type="text" id="trailer" placeholder="trailer" name="trailer" value={movie.trailer} onChange={handleInputChange} />
+                        <small className={styles.add_small}>Add only code</small>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="duration" className={styles.add_label}>duration</label>
+                        <input className={styles.add_input} type="text" id="duration" placeholder="duration" name="duration" value={movie.duration} onChange={handleInputChange} />
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="description">description</label>
-                    <input type="text" id="description" placeholder="description" name="description" value={movie.description} onChange={handleInputChange} />
+                <div className={styles.add_simple}>
+                    <div className={styles.add_main}>
+                        <label htmlFor="release" className={styles.add_label}>release</label>
+                        <input className={styles.add_input} type="date" id="release" placeholder="release" name="release" value={movie.release} onChange={handleInputChange} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="limit" className={styles.add_label}>limit</label>
+                        <input className={styles.add_input} type="text" id="limit" placeholder="limit" name="limit" value={movie.limit} onChange={handleInputChange} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="rating" className={styles.add_label}>rating</label>
+                        <input className={styles.add_input} type="text" id="rating" placeholder="rating" name="rating" value={movie.rating} onChange={handleInputChange} />
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="tag">tag</label>
-                    <ul>
-                    { 
-                        movie.tag.map((tag, index) => (
-                            <li key={index}>
-                                <span>{tag}</span>
-                                <h2 onClick={() => removeTag(index)}>X</h2>
-                            </li>
-                        ))
+                <small className={styles.add_small}>Separate keywords with enter key</small>
+                <div className={styles.add_tag}>
+                    <div className={styles.add_main}>
+                        <label htmlFor="tag" className={styles.add_label}>tag</label>
+                        <input className={styles.add_input} type="text" id="tag" placeholder="tag" name="tag" onKeyUp={e => (e.key == "Enter" ? addTag(e): null)}/>
+                        <ul className={styles.add_ul}>
+                        { 
+                            movie.tag.map((tag, index) => (
+                                <li key={index} className={styles.add_li}>
+                                    <span>{tag}</span>
+                                    <div className={styles.cont_add_icon}>
+                                        <Image className={styles.close} width="15px" height="15px" src={close} alt="cancel" onClick={() => removeTag(index)} />
+                                    </div>
+                                </li>
+                            ))
+                        }
+                        </ul>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="director" className={styles.add_label}>director</label>
+                        <input className={styles.add_input} type="text" id="director" placeholder="director" name="director" onKeyUp={e => (e.key == "Enter" ? addDirector(e): null)} />
+                        <ul className={styles.add_ul}>
+                            {
+                                movie.director.map((director, index) => (
+                                    <li key={index} className={styles.add_li}>
+                                        <span>{director}</span>
+                                        <div className={styles.cont_add_icon}>
+                                            <Image className={styles.close} width="15px" height="15px" src={close} alt="cancel" onClick={() => removeDirector(index)} />
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="writers" className={styles.add_label}>writers</label>
+                        <input className={styles.add_input} type="text" id="writers" placeholder="writers" name="writers" onKeyUp={e => (e.key == "Enter" ? addWriters(e): null)} />
+                        <ul className={styles.add_ul}>
+                            {
+                                movie.writers.map((writers, index) => (
+                                    <li key={index} className={styles.add_li}>
+                                        <span>{writers}</span>
+                                        <div className={styles.cont_add_icon}>
+                                            <Image className={styles.close} width="15px" height="15px" src={close} alt="cancel" onClick={() => removeWriters(index)} />
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="stars" className={styles.add_label}>stars</label>
+                        <input className={styles.add_input} type="text" id="stars" placeholder="stars" name="stars" onKeyUp={e => (e.key == "Enter" ? addStars(e): null)}/>
+                        <ul className={styles.add_ul}>
+                            {
+                                movie.stars.map((stars, index) => (
+                                    <li key={index} className={styles.add_li}>
+                                        <span>{stars}</span>
+                                        <div className={styles.cont_add_icon}>
+                                            <Image className={styles.close} width="15px" height="15px" src={close} alt="cancel" onClick={() => removeStars(index)} />
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div className={styles.add_image_input}>
+                    <div className={styles.add_main}>
+                        <label htmlFor="poster" className={styles.add_label}>poster</label>
+                        <ImageInput multiple files={poster} setFiles={setPoster} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="image" className={styles.add_label}>image</label>
+                        <ImageInput multiple files={files} setFiles={setFiles} />
+                    </div>
+                </div>
+                <div className={styles.add_cont_button}>
+                    {
+                        isUploaded 
+                        ? <button className={styles.add_button} onClick={handleSubmit}>Submit</button>
+                        : <button className={styles.add_button} onClick={handleUpload}>Upload</button>
                     }
-                    </ul>
-                    <input type="text" id="tag" placeholder="tag" name="tag" onKeyUp={e => (e.key == "Enter" ? addTag(e): null)}/>
-                    <small >Separate keywords with a comma, space bar, or enter key</small>
                 </div>
-                <div>
-                    <label htmlFor="director">director</label>
-                    <ul>
-                        {
-                            movie.director.map((director, index) => (
-                                <li key={index}>
-                                    <span>{director}</span>
-                                    <h2 onClick={() => removeDirector(index)}>X</h2>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    <input type="text" id="director" placeholder="director" name="director" onKeyUp={e => (e.key == "Enter" ? addDirector(e): null)} />
-                </div>
-                <div>
-                    <label htmlFor="writers">writers</label>
-                    <ul>
-                        {
-                            movie.writers.map((writers, index) => (
-                                <li key={index}>
-                                    <span>{writers}</span>
-                                    <h2 onClick={() => removeWriters(index)}>X</h2>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    <input type="text" id="writers" placeholder="writers" name="writers" onKeyUp={e => (e.key == "Enter" ? addWriters(e): null)} />
-                </div>
-                <div>
-                    <label htmlFor="stars">stars</label>
-                    <ul>
-                        {
-                            movie.stars.map((stars, index) => (
-                                <li key={index}>
-                                    <span>{stars}</span>
-                                    <h2 onClick={() => removeStars(index)}>X</h2>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    <input type="text" id="stars" placeholder="stars" name="stars" onKeyUp={e => (e.key == "Enter" ? addStars(e): null)}/>
-                </div>
-                <div>
-                    <label htmlFor="rating">rating</label>
-                    <input type="text" id="rating" placeholder="rating" name="rating" value={movie.rating} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label htmlFor="poster">poster</label>
-                    <ImageInput multiple files={poster} setFiles={setPoster} />
-                </div>
-                <div>
-                    <label htmlFor="image">image</label>
-                    <ImageInput multiple files={files} setFiles={setFiles} />
-                </div>
-                <div>
-                    <label htmlFor="trailer">trailer</label>
-                    <input type="text" id="trailer" placeholder="trailer" name="trailer" value={movie.trailer} onChange={handleInputChange} />
-                    <small>Add only code</small>
-                </div>
-                <div>
-                    <label htmlFor="duration">duration</label>
-                    <input type="text" id="duration" placeholder="duration" name="duration" value={movie.duration} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label htmlFor="release">release</label>
-                    <input type="date" id="release" placeholder="release" name="release" value={movie.release} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label htmlFor="limit">limit</label>
-                    <input type="text" id="limit" placeholder="limit" name="limit" value={movie.limit} onChange={handleInputChange} />
-                </div>
-                {
-                    isUploaded 
-                    ? <button onClick={handleSubmit}>Submit</button>
-                    : <button onClick={handleUpload}>Upload</button>
-                }
-            {/* </form> */}
+            </div>
         </div>
     )
 }

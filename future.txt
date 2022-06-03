@@ -6,3 +6,5 @@ login from google etc
 payment
 update show
 search
+paggination
+active movies on home

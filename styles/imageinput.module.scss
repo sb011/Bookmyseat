@@ -1,0 +1,49 @@
+.main_image{
+    width: 50%;
+    height: 50%;
+    .upload_add{
+        display:block;
+        padding: 3.5rem 1rem;
+        text-align:center;
+        // background:#1172c2;
+        border-radius: 10px;
+        border: 2px dashed grey;
+        text-transform:Uppercase;
+        font-weight:600;
+        cursor:pointer;
+        color: #505050;
+        font-size: 0.6rem;
+        opacity: 0.6;
+    }
+    .cont_input{
+        background: gray;
+        display: inline-flex;
+        z-index: 1;
+        .input_image{
+            display: none;
+        }
+    }
+    .show_image{
+        display: inline-flex;
+        .main_image{
+            width: auto;
+            margin: 1rem 1rem 1rem 0; 
+            display:inline-flex;
+            color: #fff;
+            border-radius: 10px;
+            .spec_image{
+                border-radius: 10px;
+            } 
+            .cont_show_icon{
+                display: flex;
+                margin-left: 5px;
+                align-items: flex-start;
+                .icon_close{
+                    cursor: pointer;
+                    display: block;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import styles from "../styles/imageinput.module.scss"
+import Image from "next/image"
+import close from "../public/cancel.svg"
 
 const ImageInput = ({ multiple, files, setFiles }) => {
     const [err, setErr] = useState('')
@@ -61,16 +64,22 @@ const ImageInput = ({ multiple, files, setFiles }) => {
 
     const showImage = (url, index) => {
         return (
-          <div key={index}>
-            <img src={url} alt="avatar" style={{width: "100px"}}/>
-            <h5 onClick={() => removeImage(index)}>X</h5>
+          <div key={index} className={styles.main_image}>
+            <img className={styles.spec_image} src={url} alt="avatar" style={{width: "100px"}}/>
+            <div className={styles.cont_show_icon}>
+              <Image className={styles.icon_close} width="15px" height="15px" src={close} alt="cancel" onClick={() => removeImage(index)} />
+            </div>
           </div>
         )
     }
 
     return (
-        <div>
-          <div onDrop={drop} onDragOver={allowDrag}>
+        <div className={styles.main_image}>
+          <label htmlFor='file-upload' className={styles.upload_add}>Upload Image</label>
+          <div className={styles.cont_input}>
+            <input className={styles.input_image}  id="file-upload" name="file-upload" type="file" accept=".jpg, .png, .gif" multiple={multiple} onChange={handleInputFiles} />
+          </div>
+          <div onDrop={drop} onDragOver={allowDrag} className={styles.show_image}>
             { 
                 files.map((file, index) => (
                 typeof(file) === 'string'
@@ -79,8 +88,6 @@ const ImageInput = ({ multiple, files, setFiles }) => {
                 ))
             }
           </div>
-          <span>Upload Image</span>
-          <input id="file-upload" name="file-upload" type="file" accept=".jpg, .png, .gif" multiple={multiple} onChange={handleInputFiles} />
         </div>
     )
 }

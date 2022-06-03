@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DeleteMovie from '../../components/deleteMovie';
 import { toast } from "react-toastify";
 import Loading from '../../components/loading';
+import styles from "../../styles/showmovie.module.scss";
 
 const Movie = (props) => {
     const state = {
@@ -42,11 +43,15 @@ const Movie = (props) => {
     }, [])
 
     return (
-        <div>
+        <div className={styles.container}>
             {
                 loading && <Loading />
             }
+            <div className={styles.poster_cont}>
+                <img className={styles.poster} src={movie.poster[0]} alt="poster" id="poster" style={{width: "100px"}}/>
+            </div>
             <div>
+            <div className={styles.main}>
                 <label htmlFor="name">name</label>
                 <h1 id="name">{movie.name}</h1>
             </div>
@@ -107,10 +112,6 @@ const Movie = (props) => {
                 <h1 id="rating">{movie.rating}</h1>
             </div>
             <div>
-                <label htmlFor="poster">poster</label>
-                <img src={movie.poster[0]} alt="poster" id="poster" style={{width: "100px"}}/>
-            </div>
-            <div>
                 <label htmlFor="image">image</label>
                 {
                     movie.images.map((image, index) => (
@@ -155,6 +156,7 @@ const Movie = (props) => {
                 removeMovie &&
                 <DeleteMovie setRemoveMovie={setRemoveMovie} id={props.id} />
             }
+        </div>
         </div>
     )
 }
