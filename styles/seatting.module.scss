@@ -1,28 +1,94 @@
 .body{
     width: 100%;
     height: 100%;
+    .cont_screen{
+        display: flex;
+        justify-content: center;
+        perspective: 1000px;
+        margin-bottom: 30px;
+        .screen{
+            transform: rotateX(-50deg);
+            box-shadow: 0 3px 10px rgba(3, 198, 252, 0.75);
+            text-align: center;
+            background-color: #03c6fc;
+            height: 8rem;
+            width: 70%;
+        }
+    }
     .hall{
         width: 100%;
         display: flex;
+        justify-content: center;
         margin: 10px;
         .row{
-            margin: 10px;
+            margin: 5px;
             .seat{
-                width: 10px;
-                height: 10px;
-                background: black;
-                margin: 10px;
+                width: 30px;
+                height: 30px;
+                border: 1px solid #505050;
+                margin: 5px;
+                font-size: 0.5rem;
+                font-weight: bold;
+                text-align: center;
+                border-radius: 10px 10px 0 0;
+                padding-top: 2px;
+                cursor: pointer;
             }
             .selected{
-                width: 10px;
-                height: 10px;
-                margin: 10px;
-                background: blue;
+                font-size: 0.5rem;
+                width: 30px;
+                height: 30px;
+                margin: 5px;
+                background: #03c6fc;
+                border-radius: 10px 10px 0 0;
+                text-align: center;
+                padding-top: 2px;
+                cursor: pointer;
             }
             .occupied{
-                width: 10px;
-                height: 10px;
-                background: red;
+                font-size: 0.5rem;
+                width: 30px;
+                height: 30px;
+                background: #F84464;
+                margin: 5px;
+                border-radius: 10px 10px 0 0;
+                text-align: center;
+                padding-top: 2px;
+                cursor: pointer;
+            }
+        }
+    }
+    .indi{
+        display: flex;
+        justify-content: center;
+        .indi_spe{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .seat{
+                width: 30px;
+                height: 30px;
+                border: 1px solid #505050;
+                margin: 10px;
+                font-size: 0.5rem;
+                font-weight: bold;
+                text-align: center;
+                border-radius: 10px 10px 0 0;
+            }
+            .selected{
+                width: 30px;
+                height: 30px;
+                border-radius: 10px 10px 0 0;
+                font-size: 0.5rem;
+                margin: 10px;
+                background: #03c6fc;
+            }
+            .occupied{
+                width: 30px;
+                height: 30px;
+                border-radius: 10px 10px 0 0;
+                font-size: 0.5rem;
+                background: #F84464;
                 margin: 10px;
             }
         }

@@ -1,8 +1,3 @@
-reset password
-forgot password
-email verfication
-remeber me
-login from google etc
 payment
 search
 paggination

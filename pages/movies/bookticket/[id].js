@@ -7,6 +7,7 @@ import moment from 'moment';
 import Router from 'next/router';
 import { toast } from "react-toastify";
 import Loading from './../../../components/loading';
+import styles from "../../../styles/adding.module.scss"
 
 const BookTicket = (props) => {
     const state = {
@@ -70,11 +71,18 @@ const BookTicket = (props) => {
                 d.push({...data.data(), uid: data.id})
             })
 
-            if(moment(e.target.value).isSameOrAfter(d[0].startDate) && moment(e.target.value).isSameOrBefore(d[0].endDate)){
-                setShows(d)
+            if(d.length != 0){
+                if(moment(e.target.value).isSameOrAfter(d[0].startDate) && moment(e.target.value).isSameOrBefore(d[0].endDate)){
+                    setShows(d)
+                }
+                else{
+                    setShows([])
+                    return toast.info("There were no shows available at that Date.")
+                }
             }
             else{
                 setShows([])
+                return toast.info("There were no shows available at that Date.")
             }
             setLoading(false)
         } catch (error) {
@@ -119,44 +127,52 @@ const BookTicket = (props) => {
     }
 
     return (
-        <div>
+        <div className={styles.contain}>
+            <div className={styles.add_form}>
             {
                 loading && <Loading />
             }
-            <h1>Ticket</h1>
-            <div>
-                <label htmlFor="cinema">cinema</label>
-                <select value={ticket.cinema} onChange={handleChangeCinema} id="cinema">
-                    <option value=""></option>
-                    {
-                        cinemas.map((cinema, index) => (
-                            <option key={index} value={cinema.name}>{cinema.name}</option>
-                        ))
-                    }
-                </select>
-            </div>
-            <div>
-                <label htmlFor="bookingdate">bookingdate</label>
-                <input type="date" id="bookingdate" placeholder="bookingdate" name="bookingdate" value={ticket.bookingdate} onChange={handleInputDate} />
-            </div>
-            {
-                ticket.bookingdate && ticket.cinema &&
+            <h1 className={styles.book_title}>Book Ticket</h1>
+            <div className={styles.add_simple}>
+                <div className={styles.add_main}>
+                    <label className={styles.add_label} htmlFor="cinema">cinema</label>
+                    <select className={styles.add_input} value={ticket.cinema} onChange={handleChangeCinema} id="cinema">
+                        <option value=""></option>
+                        {
+                            cinemas.map((cinema, index) => (
+                                <option key={index} value={cinema.name}>{cinema.name}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div className={styles.add_main}>
+                    <label className={styles.add_label} htmlFor="bookingdate">bookingdate</label>
+                    <input className={styles.add_input} type="date" id="bookingdate" placeholder="bookingdate" name="bookingdate" value={ticket.bookingdate} onChange={handleInputDate} />
+                </div>
+                {
+                    ticket.bookingdate && ticket.cinema &&
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="time">time</label>
+                        <select className={styles.add_input} value={ticket.time} onChange={handleChangeTime} id="time">
+                            <option value=""></option>
+                            {
+                                shows.map((show, index) => (
+                                    <option key={index} value={show.startAt}>{show.startAt}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                }
+                </div>
                 <div>
-                <label htmlFor="time">time</label>
-                <select value={ticket.time} onChange={handleChangeTime} id="time">
-                    <option value=""></option>
-                    {
-                        shows.map((show, index) => (
-                            <option key={index} value={show.startAt}>{show.startAt}</option>
-                        ))
-                    }
-                </select>
+                {
+                    ticket.bookingdate && ticket.cinema && ticket.time && <Seatting ticket={ticket} setTicket={setTicket} row={row} col={col} booked={booked} />
+                }
+                </div>
+                <div className={styles.add_cont_button}>
+                    <button className={styles.add_button} onClick={handleSubmit}>Submit</button>
+                </div>
             </div>
-            }
-            {
-                ticket.bookingdate && ticket.cinema && ticket.time && <Seatting ticket={ticket} setTicket={setTicket} row={row} col={col} booked={booked} />
-            }
-            <button onClick={handleSubmit}>Submit</button>
         </div>
     )
 }

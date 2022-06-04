@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react"
-import { getDocs, collection, doc } from 'firebase/firestore/lite';
+import { getDocs, collection, orderBy, query, startAt } from 'firebase/firestore/lite';
 import { db } from "../../utils/firebaseConfig";
 import Link from 'next/link';
 import { toast } from "react-toastify";
 import Loading from "../../components/loading";
 import styles from '../../styles/home.module.scss';
+import Image from "next/image"
+import searchi from "../../public/search.svg";
 
 const ShowMovies = () => {
     const [movies, setMovies] = useState([]);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
 
     useEffect(async () => {
         try {
@@ -27,6 +30,22 @@ const ShowMovies = () => {
         }
     }, [])
 
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await getDocs(collection(db, "movies"))
+            
+            let d = []
+            res.forEach((data) =>{
+                if(data.data().name.toLowerCase().includes(search.toLowerCase()))
+                    d.push({...data.data(), uid: data.id})
+            })
+            setMovies(d)
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
     return(
         <div className={styles.conatiner}>
             {
@@ -34,6 +53,12 @@ const ShowMovies = () => {
             }
             <div className={styles.cont_add}>
                 <Link href="/admin/addmovies"><a className={styles.add}>Add Movie</a></Link>
+                <form className={styles.search_cont} onSubmit={e => {handleSearch(e)}}>
+                    <input className={styles.search} name="search" id="search" onChange={e => {setSearch(e.target.value)}} />
+                    <button className={styles.btn_search}>
+                        <Image src={searchi} alt="search" width={12} height={12} className={styles.search_icon} />
+                    </button>
+                </form>
             </div>
             {
                 movies.length === 0

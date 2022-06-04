@@ -6,26 +6,18 @@ const Seatting = ({ ticket, setTicket, row, col, booked }) => {
     const c = parseInt(col)
 
     const onSelect = (e, index, cindex ) => {
-        // if(e.target.classList.contains('seatting_seat__SoSn7') && !e.target.classList.contains('seatting_occupied__gaM_S')){
-        //     e.target.classList.remove('seatting_seat__SoSn7')
-        //     e.target.classList.add('seatting_selected__UZ7k8')
-            const s = {
-                row: index,
-                col: cindex
-            }
-            const data = [...ticket.seats, s];
-            setTicket({...ticket, seats: data})
-        // }
+        const s = {
+            row: index,
+            col: cindex
+        }
+        const data = [...ticket.seats, s];
+        setTicket({...ticket, seats: data})
     }
 
     const unSelect = (e, index, cindex) => {
-        // if(e.target.classList.contains('seatting_selected__UZ7k8') && !e.target.classList.contains('seatting_occupied__gaM_S')){
-        //     e.target.classList.remove('seatting_selected__UZ7k8')
-        //     e.target.classList.add('seatting_seat__SoSn7')
-            const tick = [...ticket.seats]
-            const ans = tick.filter((se) => (se.row != index || se.col != cindex))
-            setTicket({...ticket, seats: ans})
-        // }
+        const tick = [...ticket.seats]
+        const ans = tick.filter((se) => (se.row != index || se.col != cindex))
+        setTicket({...ticket, seats: ans})
     }
 
     const isOccupied = (index, cindex) => {
@@ -44,20 +36,36 @@ const Seatting = ({ ticket, setTicket, row, col, booked }) => {
     
     return (
         <div className={styles.body}>
+            <div className={styles.indi}>
+                <div className={styles.indi_spe}>
+                    <div className={styles.seat}></div>
+                    <label className={styles.indi_title}>N/A</label>
+                </div>
+                <div className={styles.indi_spe}>
+                    <div className={styles.selected}></div>
+                    <label className={styles.indi_title}>Selected</label>
+                </div>
+                <div className={styles.indi_spe}>
+                    <div className={styles.occupied}></div>
+                    <label className={styles.indi_title}>Occuiped</label>
+                </div>
+            </div>
+            <div className={styles.cont_screen}>
+                <div className={styles.screen}></div>
+            </div>
             <div className={styles.hall}>
             {
                 [...Array(r)].map((r, index) => ( 
                     <div key={index} className={styles.row}>
-                        <h5>Row {index}</h5>
                         {
                             [...Array(c)].map((c, cindex) => (
                                 <>
                                     {
                                         isOccupied(index, cindex)
-                                        ? <div className={styles.occupied}></div> 
+                                        ? <div className={styles.occupied}>{index}-{cindex}</div> 
                                         : isSelected(index, cindex)
-                                            ? <div className={styles.selected} onClick={(e) => unSelect(e, index, cindex)}></div> 
-                                            : <div className={styles.seat} onClick={(e) => onSelect(e, index, cindex)}></div> 
+                                            ? <div className={styles.selected} onClick={(e) => unSelect(e, index, cindex)}>{index}-{cindex}</div> 
+                                            : <div className={styles.seat} onClick={(e) => onSelect(e, index, cindex)}>{index}-{cindex}</div> 
                                     }
                                 </>
                             ))

@@ -70,6 +70,7 @@
 
 .cont_add{
   margin: 2rem 0 0 2rem;
+  display: flex;
   .add{
     background: #F84464;
     color: #fff;
@@ -80,6 +81,30 @@
     &:hover, &:focus{    
         background: #C4242B;
         color: white;
+    }
+  }
+  .search_cont{
+    margin-left: 1rem;
+    width: 60%;
+    .search{
+      outline: none;
+      border: 1px solid #505050;
+      border-radius: 30px;
+      padding: 10px;
+      width: 30%;
+    }
+    .btn_search{
+      background: #F84464;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 100%;
+      padding: 10px;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      .search_icon{
+        font-weight: bold;
+      }
     }
   }
 }

@@ -1,0 +1,99 @@
+.container{
+    width: 100%;
+    height: 100%;
+    .main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 2rem;
+        .tickets{
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            margin-bottom: 2rem;
+            .ticket{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                border: 2px dashed grey;
+                border-radius: 10px;
+                .movie{
+                    margin: 1.2rem 0 1rem 1.2rem;
+                    font-size: 2rem;
+                }
+                .place{
+                    display: flex;
+                    flex-direction: row;
+                    margin: 0 0 0 1.2rem;
+                    .cinema, .location, .bullet{
+                        font-size: 1.2rem;
+                        margin-right: 10px;
+                    }
+                }
+                .seat_title{
+                    font-size: 1rem;
+                    margin: 0 0 0 1.2rem;
+                    padding: 0;
+                }
+                .seats{
+                    margin: 0 0 1rem 1.2rem;
+                    display: grid;
+                    grid-template-columns: repeat(10, 1fr);
+                    flex-direction: row;
+                    .seat{
+                        font-size: 1rem;
+                        margin: 0;
+                        margin-right: 10px;
+                        padding: 0;
+                    }
+                }
+                .uid{
+                    margin-left: 1.2rem;
+                    font-size: 1rem;
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+    .single_ticket{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        border: 2px dashed grey;
+        margin: 2rem;
+        .movie{
+            margin: 1.2rem 0 1rem 2rem;
+            font-size: 2rem;
+        }
+        .place{
+            display: flex;
+            flex-direction: row;
+            margin: 0 0 0 2rem;
+            .cinema, .location, .bullet{
+                font-size: 1.2rem;
+                margin-right: 10px;
+            }
+        }
+        .seat_title{
+            font-size: 1rem;
+            margin: 0 0 0 2rem;
+            padding: 0;
+        }
+        .seats{
+            margin: 0 0 1rem 2rem;
+            display: inline-flex;
+            .seat{
+                font-size: 1rem;
+                margin: 0;
+                margin-right: 10px;
+                padding: 0;
+            }
+        }
+        .uid{
+            margin-left: 2rem;
+            font-size: 1rem;
+            opacity: 0.5;
+        }
+    }
+}

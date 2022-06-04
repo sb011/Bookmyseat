@@ -4,6 +4,7 @@ import { db } from '../../utils/firebaseConfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import Loading from '../../components/loading';
+import styles from "../../styles/tickets.module.scss"
 
 const Ticket = (props) => { 
     const [ticket, setTicket] = useState({})
@@ -32,40 +33,30 @@ const Ticket = (props) => {
         }
     }, [])
     return (
-        <div>
+        <div className={styles.container}>
             { loading && <Loading/> }
-            <div>
-                <label htmlFor="movie">movie</label>
-                <h1 id="movie" name="movie">{ticket.movie}</h1>
-            </div>
-            <div>
-                <label htmlFor="cinema">cinema</label>
-                <h1 id="cinema" name="cinema">{ticket.cinema}</h1>
-            </div>
-            <div>
-                <label htmlFor="location">location</label>
-                <h1 id="location" name="location">{ticket.location}</h1>
-            </div>
-            <div>
-                <label htmlFor="bookingdate">bookingdate</label>
-                <h1 id="bookingdate" name="bookingdate">{ticket.bookingdate}</h1>
-            </div>
-            <div>
-                <label htmlFor="time">time</label>
-                <h1 id="time" name="time">{ticket.time}</h1>
-            </div>
-            <div>
-                <label htmlFor="seat">seat</label>
-                {
-                    seats.map((seat, index) => (
-                        <h5 key={index}>{seat.row} - {seat.col}</h5>
-                    ))
-                }
-            </div>
-            <div>
-                <label htmlFor="user">user</label>
-                <h1 id="user" name="user">{user}</h1>
-            </div>
+                <div className={styles.single_ticket}>
+                    <h1 className={styles.movie} id="movie" name="movie">{ticket.movie}</h1>
+                    <div className={styles.place}>
+                        <h1 className={styles.cinema} id="cinema" name="cinema">{ticket.cinema}</h1>
+                        <h1 className={styles.bullet}>•</h1>
+                        <h1 className={styles.location} id="location" name="location">{ticket.location}</h1>
+                    </div>
+                    <div className={styles.place}>
+                        <h1 className={styles.cinema} id="bookingdate" name="bookingdate">{ticket.bookingdate}</h1>
+                        <h1 className={styles.bullet}>•</h1>
+                        <h1 className={styles.location} id="time" name="time">{ticket.time}</h1>
+                    </div>
+                    <h1 className={styles.seat_title}>Seats:</h1>
+                    <div className={styles.seats}>
+                        {
+                            seats.map((seat, index) => (
+                                <h5 className={styles.seat} key={index}>{seat.row} - {seat.col}</h5>
+                            ))
+                        }
+                    </div>
+                    <h1 className={styles.uid} id="user" name="user">{user}</h1>
+                </div>
         </div>
     )
 }
