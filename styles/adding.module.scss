@@ -107,7 +107,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            .add_button{
+            .add_button, .add_button1{
                 border: none;
                 background: #F84464;
                 color: #fff;
@@ -120,7 +120,10 @@
                 &:hover, &:focus{    
                     background: #C4242B;
                 }
-            }   
+            }  
+            .add_button1{
+                margin-left: 1rem;
+            } 
         }
     }
 }

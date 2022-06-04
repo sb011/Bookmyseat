@@ -1,0 +1,98 @@
+.main{
+    width: 100%;
+    height: 100%;
+    margin: 2rem 0 0 0;
+    .btn{
+        border: none;
+        background: #F84464;
+        color: #fff;
+        border-radius: 18px;
+        font-size: 1rem;
+        font-weight: bolder;
+        width: 40%;
+        padding: 8px 20px;
+        margin: 0 2rem;
+        outline: none;
+        &:hover, &:focus{    
+            background: #C4242B;
+            color: white;
+        }
+    }
+    .details{
+        display: flex;
+        justify-content: center;
+        .table{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            width: 90%;
+            border: 2px dashed #505050;
+            .header, .show{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                .label{
+                    width: 100%;
+                    font-size: 1rem;
+                    margin: 0;
+                    padding: 0;
+                    margin: 0.5rem 0;
+                    // padding: 0 1rem;
+                    text-align: center;
+                    border-right: 1px solid #505050;
+                    &:last-child{
+                        border: none;
+                    }
+                }
+                .label1{
+                    width: 100%;
+                    font-size: 1rem;
+                    margin: 0;
+                    padding: 0;
+                    text-transform: uppercase;
+                    margin: 1rem 0;
+                    // padding: 0 1rem;
+                    text-align: center;
+                    border-right: 1px solid #505050;  
+                    &:last-child{
+                        border: none;
+                    }
+                }
+                .link{
+                    width: 100%;
+                    font-size: 1rem;
+                    margin: 1rem 0;
+                    text-align: center;
+                    background: #e3d536;
+                    color: #fff;
+                    border-radius: 18px;
+                    font-size: 1rem;
+                    font-weight: bolder;
+                    width: 70%;
+                    padding: 10px 20px;
+                    margin: 0;
+                }
+                .button{
+                    cursor: pointer;
+                    outline: none;
+                    border: none;
+                    background: none;
+                    width: 70%;
+                    padding: 10px 0;
+                    margin: 0;
+                    // padding: 0 1rem;
+                    text-align: center;
+                    background: #F84464;
+                    color: #fff;
+                    border-radius: 18px;
+                    font-size: 1rem;
+                    font-weight: bolder;
+                }
+            }
+        }
+    }
+}

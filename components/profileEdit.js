@@ -18,7 +18,7 @@ const ProfileEdit = ({setOnSetting}) => {
     }
     const [user, setUser] = useState(state)
     const [password, setPassword] = useState();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const auth = getAuth();
     useEffect(async () => {
@@ -69,6 +69,7 @@ const ProfileEdit = ({setOnSetting}) => {
             return toast.error(error.message)
         }
     }
+
     return (
         <div className={styles.prof_container}>
             {
@@ -83,7 +84,7 @@ const ProfileEdit = ({setOnSetting}) => {
                 <Image className={styles.backgorund}  src={bg} alt="background"/>
             </div>
             }
-            <form onSubmit={handleSubmit} className={styles.prof_simple}>
+            <form onSubmit={handleSubmit} className={styles.prof_simple1}>
                 <h1 className={styles.title}>Edit Profile</h1>
                 <div className={styles.prof_main}>
                     <label className={styles.prof_label} htmlFor="username">Username</label>
@@ -97,10 +98,11 @@ const ProfileEdit = ({setOnSetting}) => {
                     <label className={styles.prof_label} htmlFor="phone">Phone No.</label>
                     <input className={styles.input} type="number" id="phone" placeholder="Phone no." name="phone" value={user.phone} onChange={handleInputChange} />
                 </div>
-                {/* <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" name="password" value={password} onChange={e => setPassword(e.target.value)} />
-                </div> */}
+                <div className={styles.prof_main}>
+                    <label className={styles.prof_label} htmlFor="password">Password</label>
+                    <input className={styles.input} type="password" id="password" placeholder="Password" name="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <small className={styles.small}>For security purpose</small>
+                </div>
                 <div className={styles.update_btn}>
                     <button className={styles.prof_button}>Update</button>
                     <button className={styles.prof_button} onClick={() => setOnSetting(false)}>Cancel</button>

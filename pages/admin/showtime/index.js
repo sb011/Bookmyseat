@@ -5,6 +5,7 @@ import Router from 'next/router';
 import Link from "next/link"
 import { toast } from "react-toastify";
 import Loading from "../../../components/loading";
+import styles from "../../../styles/shows.module.scss"
 
 const Cinemas = () => {
     const [shows, setShows] = useState([]);
@@ -41,53 +42,49 @@ const Cinemas = () => {
     }
 
     return (
-        <div>
+        <div className={styles.main}>
             {
                 loading && <Loading />
             }
-            <Link href="/admin/showtime/addshow"><a>AddShow</a></Link>
+            <Link href="/admin/showtime/addshow"><a className={styles.btn}>AddShow</a></Link>
+            <div className={styles.details}>
             {
                 shows.length === 0
                 ? <h1>No Shows</h1>
-                : shows.map((show, index) => (
-                    <div key={index}>
-                        <div>
-                            <label htmlFor="movie">movie</label>
-                            <h1 id="movie" name="movie">{show.movie}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="cinema">cinema</label>
-                            <h1 id="cinema" name="cinema">{show.cinema}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="seatunoccupied">seatunoccupied</label>
-                            <h1 id="seatunoccupied" name="seatunoccupied">{show.seatunoccupied}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="totalseat">totalseat</label>
-                            <h1 id="totalseat" name="totalseat">{show.totalseat}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="startAt">startAt</label>
-                            <h1 id="startAt" name="startAt">{show.startAt}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="startDate">startDate</label>
-                            <h1 id="startDate" name="startDate">{show.startDate}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="endDate">endDate</label>
-                            <h1 id="endDate" name="endDate">{show.endDate}</h1>
-                        </div>
-                        <div>
-                            <label htmlFor="endDate">endDate</label>
-                            <h1 id="endDate" name="endDate">{show.endDate}</h1>
-                        </div>
-                        <button onClick={() => handleDelete(show.uid)}>Delete</button>
-                        <Link href={`/admin/showtime/updateshow/${show.uid}`}><a>Update</a></Link>
+                : <div className={styles.table}>
+                    <div className={styles.header}>
+                        <h1 className={styles.label1}>movie</h1>
+                        <h1 className={styles.label1}>cinema</h1>
+                        <h1 className={styles.label1}>totalseat</h1>
+                        <h1 className={styles.label1}>startAt</h1>
+                        <h1 className={styles.label1}>startDate</h1>
+                        <h1 className={styles.label1}>endDate</h1>
+                        <h1 className={styles.label1}>endDate</h1>
+                        <h1 className={styles.label1}>Update</h1>
+                        <h1 className={styles.label1}>Delete</h1>
                     </div>
-                ))
+                    {
+                        shows.map((show, index) => (
+                            <div key={index} className={styles.show}>
+                                <h1 className={styles.label} id="movie" name="movie">{show.movie}</h1>
+                                <h1 className={styles.label} id="cinema" name="cinema">{show.cinema}</h1>
+                                <h1 className={styles.label} id="totalseat" name="totalseat">{show.totalseat}</h1>
+                                <h1 className={styles.label} id="startAt" name="startAt">{show.startAt}</h1>
+                                <h1 className={styles.label} id="startDate" name="startDate">{show.startDate}</h1>
+                                <h1 className={styles.label} id="endDate" name="endDate">{show.endDate}</h1>
+                                <h1 className={styles.label} id="endDate" name="endDate">{show.endDate}</h1>
+                                <div className={styles.label}>
+                                    <Link href={`/admin/showtime/updateshow/${show.uid}`}><a className={styles.link}>Update</a></Link>
+                                </div>
+                                <div className={styles.label}>
+                                    <button className={styles.button} onClick={() => handleDelete(show.uid)}>Delete</button>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
             }
+            </div>
         </div>
     )
 }

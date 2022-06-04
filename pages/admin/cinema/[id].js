@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DeteleCinema from './../../../components/deleteCinema';
 import { toast } from "react-toastify";
 import Loading from '../../../components/loading';
+import styles from "../../../styles/adding.module.scss";
 
 const Cinema = (props) => {
     const [cinema, setCinema] = useState({});
@@ -24,40 +25,48 @@ const Cinema = (props) => {
     }, [])
 
     return (
-        <div>
-            {
-                loading && <Loading />
-            }
-            <div>
-                <label htmlFor="name">name</label>
-                <h1 id="name" name="name">{cinema.name}</h1>
+        <div className={styles.contain}>
+            <div className={styles.add_form}>
+                {
+                    loading && <Loading />
+                }
+                <div className={styles.add_simple}>
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="name">name</label>
+                        <h1 className={styles.add_label} id="name" name="name">{cinema.name}</h1>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="address">address</label>
+                        <h1 className={styles.add_label} id="address" name="address" style={{overflowWrap: "break-word"}}>{cinema.address}</h1> 
+                    </div>
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="location">location</label>
+                        <h1 className={styles.add_label} id="location" name="location">{cinema.location}</h1>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="rating">rating</label>
+                        <h1 className={styles.add_label} id="rating" name="rating">{cinema.rating}</h1>
+                    </div>
+                </div>
+                <div className={styles.add_simple}>
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="seatrow">seatrow</label>
+                        <h1 className={styles.add_label} id="seatrow" name="seatrow">{cinema.seatrow}</h1>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label className={styles.add_label} htmlFor="seatcol">seatcol</label>
+                        <h1 className={styles.add_label} id="seatcol" name="seatcol">{cinema.seatcol}</h1>
+                    </div>
+                </div>
+                <div className={styles.add_cont_button}>
+                    <Link href={`/admin/cinema/updatecinema/${props.id}`}><a className={styles.add_button}>Update</a></Link>
+                    <button className={styles.add_button1} onClick={() => setRemoveCinema(!removeCinema)}>Delete</button>
+                    {
+                        removeCinema &&
+                        <DeteleCinema setRemoveCinema={setRemoveCinema} id={props.id} />
+                    }
+                </div>
             </div>
-            <div>
-                <label htmlFor="address">address</label>
-                <h1 id="address" name="address">{cinema.address}</h1>
-            </div>
-            <div>
-                <label htmlFor="location">location</label>
-                <h1 id="location" name="location">{cinema.location}</h1>
-            </div>
-            <div>
-                <label htmlFor="rating">rating</label>
-                <h1 id="rating" name="rating">{cinema.rating}</h1>
-            </div>
-            <div>
-                <label htmlFor="seatrow">seatrow</label>
-                <h1 id="seatrow" name="seatrow">{cinema.seatrow}</h1>
-            </div>
-            <div>
-                <label htmlFor="seatcol">seatcol</label>
-                <h1 id="seatcol" name="seatcol">{cinema.seatcol}</h1>
-            </div>
-            <Link href={`/admin/cinema/updatecinema/${props.id}`}><a>Update</a></Link>
-            <button onClick={() => setRemoveCinema(true)}>Delete Movie</button>
-            {
-                removeCinema &&
-                <DeteleCinema setRemoveCinema={setRemoveCinema} id={props.id} />
-            }
         </div>
     )
 }

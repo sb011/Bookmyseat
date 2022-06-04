@@ -4,7 +4,7 @@ import { db } from "../../../utils/firebaseConfig";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loading";
 import Router from 'next/router';
-
+import styles from "../../../styles/adding.module.scss"
 
 const AddShow = () => {
     const state = {
@@ -75,45 +75,53 @@ const AddShow = () => {
     }
 
     return (
-        <div>
-            {
-                loading && <Loading />
-            }
-            <div>
-                <label htmlFor="movie">movie</label>
-                <select value={show.movie} onChange={handleChangeCategoryMovie} id="movie">
-                    <option value=""></option>
-                    {
-                        movies.map((movie, index) => (
-                            <option key={index} value={movie.name}>{movie.name}</option>
-                        ))
-                    }
-                </select>
+        <div className={styles.contain}>
+            <div className={styles.add_form}>
+                {
+                    loading && <Loading />
+                }
+                <div className={styles.add_simple}>
+                    <div className={styles.add_main}>
+                        <label htmlFor="movie" className={styles.add_label}>movie</label>
+                        <select className={styles.add_input} value={show.movie} onChange={handleChangeCategoryMovie} id="movie">
+                            <option value=""></option>
+                            {
+                                movies.map((movie, index) => (
+                                    <option key={index} value={movie.name}>{movie.name}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="cinema" className={styles.add_label}>cinema</label>
+                        <select className={styles.add_input} value={show.cinema} onChange={handleChangeCategoryCinema} id="cinema">
+                            <option value=""></option>
+                            {
+                                cinemas.map((cinema, index) => (
+                                    <option key={index} value={cinema.name}>{cinema.name}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div className={styles.add_simple}>
+                    <div className={styles.add_main}>
+                        <label htmlFor="startAt" className={styles.add_label}>startAt</label>
+                        <input className={styles.add_input} type="time" id="startAt" placeholder="startAt" name="startAt" value={show.startAt} onChange={handleInputChange} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="startDate" className={styles.add_label}>startDate</label>
+                        <input className={styles.add_input} type="date" id="startDate" placeholder="startDate" name="startDate" value={show.startDate} onChange={handleInputChange} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="endDate" className={styles.add_label}>endDate</label>
+                        <input className={styles.add_input} type="date" id="endDate" placeholder="endDate" name="endDate" value={show.endDate} onChange={handleInputChange} />
+                    </div>
+                </div>
+                <div className={styles.add_cont_button}>
+                    <button className={styles.add_button} onClick={handleSubmit}>Submit</button>
+                </div>
             </div>
-            <div>
-                <label htmlFor="cinema">cinema</label>
-                <select value={show.cinema} onChange={handleChangeCategoryCinema} id="cinema">
-                    <option value=""></option>
-                    {
-                        cinemas.map((cinema, index) => (
-                            <option key={index} value={cinema.name}>{cinema.name}</option>
-                        ))
-                    }
-                </select>
-            </div>
-            <div>
-                <label htmlFor="startAt">startAt</label>
-                <input type="time" id="startAt" placeholder="startAt" name="startAt" value={show.startAt} onChange={handleInputChange} />
-            </div>
-            <div>
-                <label htmlFor="startDate">startDate</label>
-                <input type="date" id="startDate" placeholder="startDate" name="startDate" value={show.startDate} onChange={handleInputChange} />
-            </div>
-            <div>
-                <label htmlFor="endDate">endDate</label>
-                <input type="date" id="endDate" placeholder="endDate" name="endDate" value={show.endDate} onChange={handleInputChange} />
-            </div>
-            <button onClick={handleSubmit}>Submit</button>
         </div>
     )
 }

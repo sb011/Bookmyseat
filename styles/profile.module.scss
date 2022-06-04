@@ -17,7 +17,7 @@
             background-repeat: no-repeat;
         }
     }
-    .prof_simple{
+    .prof_simple, .prof_simple1{
         position: absolute;
         background: #ffffff;
         display: flex;
@@ -87,5 +87,12 @@
                 color: white;
             }
         }
+    }
+    .prof_simple1{
+        height: 70%;
+    }
+    .small{
+        font-size: 0.5rem;
+        margin-top: 5px;
     }
 }

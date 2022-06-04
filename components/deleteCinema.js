@@ -4,6 +4,8 @@ import Router from "next/router"
 import { toast } from "react-toastify";
 import Loading from "./loading";
 import { useState } from "react";
+import styles from "../styles/delete.module.scss"
+
 
 const DeteleCinema = ({ setRemoveCinema, id }) => {
     const [loading, setLoading] = useState(false)
@@ -22,13 +24,17 @@ const DeteleCinema = ({ setRemoveCinema, id }) => {
     }
 
     return (
-        <div>
+        <div className={styles.del_main}>
             {
                 loading && <Loading />
             }
-            <h1>Delete Movie</h1>
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={() => setRemoveCinema(false)}>Cancel</button>
+            <div className={styles.del_form}>
+                <h1 className={styles.del_title}>Are you sure you want to Delete this Cinema?</h1>
+                <div className={styles.del_buttons}>
+                    <button className={styles.del_del} onClick={handleDelete}>Delete</button>
+                    <button className={styles.del_can} onClick={() => setRemoveCinema(false)}>Cancel</button>
+                </div>
+            </div>
         </div>
     )
 }

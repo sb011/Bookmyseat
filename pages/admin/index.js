@@ -54,7 +54,6 @@ const ShowMovies = () => {
                                             movie.tag.map((tag, index) => (
                                                 <li key={index} className={styles.li}>
                                                     <span>{tag}</span>
-                                                    <span className={styles.sla}>/</span>
                                                 </li>
                                             ))
                                         }
