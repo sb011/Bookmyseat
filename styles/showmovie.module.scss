@@ -1,11 +1,213 @@
 .container{
     width: 100%;
     height: 100%;
-    .poster_cont{
-        .poster{
-            object-fit: cover;
-            background-size: cover;
-            background-repeat: no-repeat;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
+    // align-items: center;
+    position: absolute;
+    .main_cont{
+        .poster_cont{
+            // z-index: 0;
+            width: 100%;
+            height: 100%;
+            // position: fixed;
+            position: absolute;
+            .poster{
+                width: 100%;
+                height: 91%;
+                object-fit: cover;
+                // background-size: cover;
+                // background-repeat: no-repeat;
+            }
+        }
+        .details{
+            background: linear-gradient(to right, rgba(0,0,0,.9) 25%, transparent 100%);
+            color: #ddd;
+            z-index: 1;
+            height: 91%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            .info{
+                margin: 5rem;
+                .title{
+                    font-size: 1.2rem;
+                    .header{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        .active{
+                            // margin-top: 15px;
+                            margin-left: 1rem;
+                            font-size: 0.9rem;
+                        }
+                    }
+                    .limit{
+                        font-size: 0.7rem;
+                        margin: 0;
+                    }
+                }
+                .desc{
+                    width: 30%;
+                    font-size: 0.5rem;
+                    .description{
+                        opacity: 0.8;
+                        font-weight: 200;
+                    }
+                }
+                .tag{
+                    width: 30%;
+                    .ul{
+                        list-style: none;
+                        display: inline-flex;
+                        margin: 0;
+                        padding: 0;
+                        .li{
+                            padding: 0.6rem 0.8rem;
+                            margin: 0 1rem 0 0;
+                            border-radius: 30px;
+                            border: 1px solid #ddd;
+                            font-size: 0.8rem;
+                        }
+                    }
+                }
+                .main{
+                    font-size: 0.8rem;
+                    display: flex;
+                    flex-direction: row;
+                    font-weight: bold;
+                    margin: 0.8rem 0;
+                    .label{
+                        color: #34bdeb;
+                    }
+                    .ul{
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
+                        width: 30%;
+                        display: inline-flex;
+                        flex-direction: row;
+                        .li{
+                            margin-left: 0.5rem;
+                        }
+                    }
+                }
+                .rating{
+                    font-size: 0.6rem;
+                }
+                .duration{
+                    font-size: 0.5rem;
+                    display: flex;
+                    .dur{
+                        border: 1px groove grey;
+                        padding: 0.7rem 1rem;
+                        font-weight: 500;
+                        margin: 0;
+                    }
+                }
+                .release{
+                    font-size: 0.5rem;
+                    display: flex;
+                    justify-content: row;
+                    align-items: center;
+                    .label{
+                        font-size: 1rem;
+                        margin-right: 0.6rem;
+                    }
+                }
+            }
+        }
+        .buttons{
+            z-index: 1;
+            position: absolute;
+            width: 100%;
+            display: flex;
+            // align-items: center;
+            justify-content: flex-end;
+            color: #fff;
+            // margin: 1rem;
+            margin: 1rem 1rem 0 0;
+            .update{
+                background: #F84464;
+                padding: 0.6rem 1rem;
+                border-radius: 10px;
+                &:hover, &:focus{    
+                    background: #C4242B;
+                    color: white;
+                }
+            }
+            .delete{
+                margin: 0;
+                margin-left: 1rem;
+                margin-right: 1rem;
+                font-size: 1rem;
+                color: #fff;
+                outline: none;
+                border: none;
+                background: #F84464;
+                padding: 0.6rem 1rem;
+                border-radius: 10px;
+                &:hover, &:focus{    
+                    background: #C4242B;
+                    color: white;
+                }
+            }
+            .book{
+                margin: 0;
+                margin-left: 1rem;
+                margin-right: 1rem;
+                font-size: 1rem;
+                font-weight: bold;
+                color: #fff;
+                outline: none;
+                border: none;
+                background: #F84464;
+                padding: 0.8rem 1.6rem;
+                border-radius: 30px;
+                &:hover, &:focus{    
+                    background: #C4242B;
+                    color: white;
+                }
+            }
+        }
+    }
+    .about{
+        position: absolute;
+        margin-top: 45%;
+        // display: flex;
+        height: 100%;
+        margin-left: 4rem;
+        .gall_main{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: left;
+            height: 100%;
+            margin-top: 1rem;
+            .gall_label{
+                margin-bottom: 8px;
+                font-size: 1.1rem;
+                text-align: left;
+                font-weight: 600;
+                text-decoration: underline;
+            }
+            .tariler{
+                width: 95%;
+                height: 100%;
+            }
+            .car{
+                width: 95%;
+                height: 100%;
+                .car_cont_img{
+                    height: 100%;
+                    .car_img{
+                        object-fit: cover;
+                        height: 100%; 
+                        // height: 50% !important;
+                    }
+                }
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ import { doc, getDoc } from 'firebase/firestore/lite';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Loading from '../../components/loading';
+import styles from "../../styles/showmovie.module.scss"
+import Carousels from '../../components/carousel';
 
 const Movie = (props) => {
     const state = {
@@ -41,114 +43,106 @@ const Movie = (props) => {
     }, [])
 
     return (
-        <div>
+        <div className={styles.container}>
             {
                 loading && <Loading />
             }
-            <div>
-                <label htmlFor="name">name</label>
-                <h1 id="name">{movie.name}</h1>
+            <div className={styles.main_cont}>
+                <div className={styles.poster_cont}>
+                    <img className={styles.poster} src={movie.poster[0]} alt="poster" id="poster"/>
+                </div>
+                <div className={styles.details}>
+                    <div className={styles.info}>
+                        <div className={styles.title}>
+                            <h1 id="name">{movie.name}</h1>
+                            <h1 id="limit" className={styles.limit}>{movie.limit}+</h1>
+                        </div>
+                        <div className={styles.desc}>
+                            <h1 id="description">{movie.description}</h1>
+                        </div>
+                        <div className={styles.tag}>
+                            <ul className={styles.ul}>
+                            {   
+                            movie.tag.map((tag, index) => (
+                                <li key={index} className={styles.li}>
+                                    <span>{tag}</span>
+                                </li>
+                            ))
+                            }
+                            </ul>
+                        </div>
+                        <div className={styles.main}>
+                            <label htmlFor="director" className={styles.label}>director:</label>
+                            <ul className={styles.ul}>
+                                {
+                                    movie.director.map((director, index) => (
+                                        <li key={index} className={styles.li}>
+                                            <span>{director}</span>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className={styles.main}>
+                            <label htmlFor="writers" className={styles.label}>writers:</label>
+                            <ul className={styles.ul}>
+                                {
+                                    movie.writers.map((writers, index) => (
+                                        <li key={index} className={styles.li}>
+                                            <span>{writers}</span>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className={styles.main}>
+                            <label htmlFor="stars" className={styles.label}>stars:</label>
+                            <ul className={styles.ul}>
+                                {
+                                    movie.stars.map((stars, index) => (
+                                        <li key={index} className={styles.li}>
+                                            <span>{stars}</span>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className={styles.rating}>
+                            <h1 id="rating">❤️ {movie.rating}/10</h1>
+                        </div>
+                        <div className={styles.duration}>
+                            <h1 id="duration" className={styles.dur}>{movie.duration}</h1>
+                        </div>
+                        <div className={styles.release}>
+                            <label htmlFor="release" className={styles.label}>release</label>
+                            <h1 id="release">{movie.release}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.buttons}>
+                    <Link href={`/movies/bookticket/${props.id}`}><a className={styles.book}>Book Ticket</a></Link>
+                </div>
             </div>
-            <div>
-                <label htmlFor="description">description</label>
-                <h1 id="description">{movie.description}</h1>
+            <div className={styles.about}>
+                <h2>About Movie:</h2>
+                <div className={styles.gall_main}>
+                    <label htmlFor="trailer" className={styles.gall_label}>trailer</label>
+                    <iframe 
+                        className={styles.tariler}
+                        src={`https://www.youtube.com/embed/${movie.trailer}`}
+                        frameBorder='0'
+                        allow='autoplay; encrypted-media'
+                        allowFullScreen
+                        title='video'
+                    />
+                </div>
+                <div className={styles.gall_main}>
+                    <label htmlFor="image" className={styles.gall_label}>Images</label>
+                    <div className={styles.car}>
+                        <Carousels images={movie.images}/>
+                    </div>
+                </div>
             </div>
-             <div>
-                <label htmlFor="tag">tag</label>
-                <ul>
-                {   
-                   movie.tag.map((tag, index) => (
-                    <li key={index}>
-                        <span>{tag}</span>
-                    </li>
-                   ))
-                }
-                </ul>
-            </div>
-            <div>
-                <label htmlFor="director">director</label>
-                <ul>
-                    {
-                        movie.director.map((director, index) => (
-                            <li key={index}>
-                                <span>{director}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-            <div>
-                <label htmlFor="writers">writers</label>
-                <ul>
-                    {
-                        movie.writers.map((writers, index) => (
-                            <li key={index}>
-                                <span>{writers}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-            <div>
-                <label htmlFor="stars">stars</label>
-                <ul>
-                    {
-                        movie.stars.map((stars, index) => (
-                            <li key={index}>
-                                <span>{stars}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-            <div>
-                <label htmlFor="rating">rating</label>
-                <h1 id="rating">{movie.rating}</h1>
-            </div>
-            <div>
-                <label htmlFor="poster">poster</label>
-                <img src={movie.poster[0]} alt="poster" id="poster" style={{width: "100px"}}/>
-            </div>
-            <div>
-                <label htmlFor="image">image</label>
-                {
-                    movie.images.map((image, index) => (
-                        <img src={image} key={index} id="image" alt="images" style={{width: "100px"}}/>
-                    ))
-                }
-            </div>
-            <div>
-                <label htmlFor="trailer">trailer</label>
-                {/* <video src={movie.trailer} autoPlay /> */}
-                <iframe 
-                    src={`https://www.youtube.com/embed/${movie.trailer}`}
-                    frameBorder='0'
-                    allow='autoplay; encrypted-media'
-                    allowFullScreen
-                    title='video'
-                />
-            </div>
-            <div>
-                <label htmlFor="duration">duration</label>
-                <h1 id="duration">{movie.duration}</h1>
-            </div>
-            <div>
-                <label htmlFor="release">release</label>
-                <h1 id="release">{movie.release}</h1>
-            </div>
-            <div>
-                <label htmlFor="limit">limit</label>
-                <h1 id="limit">{movie.limit}</h1>
-            </div>
-            <div>
-                <label htmlFor="active">active</label>
-                {
-                    movie.active
-                    ? <h1 id="active">Movie is active</h1>
-                    : <h1 id="active">Movie is not active</h1>
-                }
-            </div>
-            <Link href={`/movies/bookticket/${props.id}`}><a>Book Ticket</a></Link>
         </div>
     )
 }

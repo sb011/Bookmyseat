@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getDocs, collection } from 'firebase/firestore/lite';
+import { getDocs, collection, where, query } from 'firebase/firestore/lite';
 import { db } from "../utils/firebaseConfig";
 import Link from 'next/link';
 import { toast } from "react-toastify";
@@ -13,7 +13,8 @@ const ShowMovies = () => {
     useEffect(async () => {
         try {
             setLoading(true)
-            const res = await getDocs(collection(db, "movies"))
+            const q = query(collection(db, "movies"), where("active", "==", true))
+            const res = await getDocs(q)
             
             let d = []
             res.forEach((data) =>{

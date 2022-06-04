@@ -280,6 +280,10 @@ const UpdateMovies = (props) => {
                         <label htmlFor="rating" className={styles.add_label}>rating</label>
                         <input className={styles.add_input} type="text" id="rating" placeholder="rating" name="rating" value={movie.rating} onChange={handleInputChange} />
                     </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="active" className={styles.add_label}>active</label>
+                        <input className={styles.add_check} type="checkbox" id="active" name="active" checked={active} onChange={handleChangeActive} />
+                    </div>
                 </div>
                 <small className={styles.add_small}>Separate keywords with enter key</small>
                 <div className={styles.add_tag}>

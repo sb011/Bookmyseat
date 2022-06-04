@@ -3,6 +3,7 @@ import { db } from "../utils/firebaseConfig";
 import Router from "next/router"
 import { toast } from "react-toastify";
 import Loading from "./loading";
+import { useState } from "react";
 
 const DeteleCinema = ({ setRemoveCinema, id }) => {
     const [loading, setLoading] = useState(false)

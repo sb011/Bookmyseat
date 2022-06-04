@@ -26,7 +26,7 @@ const AddMovies = () => {
         duration: '',
         release: Date,
         limit: '',
-        active: true
+        active: false
     }
 
     const [movie, setMovie] = useState(state)

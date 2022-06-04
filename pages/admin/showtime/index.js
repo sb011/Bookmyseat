@@ -84,6 +84,7 @@ const Cinemas = () => {
                             <h1 id="endDate" name="endDate">{show.endDate}</h1>
                         </div>
                         <button onClick={() => handleDelete(show.uid)}>Delete</button>
+                        <Link href={`/admin/showtime/updateshow/${show.uid}`}><a>Update</a></Link>
                     </div>
                 ))
             }
