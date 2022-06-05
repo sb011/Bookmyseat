@@ -4,7 +4,6 @@ import { upload } from '../../../components/uploadFiles';
 import { getAuth } from 'firebase/auth';
 import { setDoc, doc, getDoc } from 'firebase/firestore/lite'
 import { db } from '../../../utils/firebaseConfig';
-import { useRouter } from 'next/router';
 import { toast } from "react-toastify";
 import Loading from '../../../components/loading';
 import Router from 'next/router';
@@ -30,12 +29,10 @@ const UpdateMovies = (props) => {
         active: Boolean
     }
 
-    const router = useRouter()
     const [movie, setMovie] = useState(state)
     const [files, setFiles] = useState([])
     const [poster, setPoster] = useState([])
     const [active, setActive] = useState(movie.active)
-    const [err, setErr] = useState('')
     const [isUploaded, setIsUploaded] = useState(false)
     const auth = getAuth()
     const [loading, setLoading] = useState(false)
@@ -116,7 +113,7 @@ const UpdateMovies = (props) => {
             setLoading(true)
             const res_images = await upload(`images/${auth.currentUser.uid}`, (files))
             const res_poster = await upload(`images/${auth.currentUser.uid}`, (poster))
-            setMovie({...movie, poster: res_poster, images: res_images, active: active})
+            setMovie({...movie, images: res_images, poster: res_poster,active: active})
             setIsUploaded(true)
             setLoading(false)
         } catch (error) {
@@ -354,12 +351,12 @@ const UpdateMovies = (props) => {
                 </div>
                 <div className={styles.add_image_input}>
                     <div className={styles.add_main}>
-                        <label htmlFor="poster" className={styles.add_label}>poster</label>
-                        <ImageInput multiple files={poster} setFiles={setPoster} />
-                    </div>
-                    <div className={styles.add_main}>
                         <label htmlFor="image" className={styles.add_label}>image</label>
                         <ImageInput multiple files={files} setFiles={setFiles} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="poster" className={styles.add_label}>poster</label>
+                        <ImageInput files={poster} setFiles={setPoster} />
                     </div>
                 </div>
                 <div className={styles.add_cont_button}>

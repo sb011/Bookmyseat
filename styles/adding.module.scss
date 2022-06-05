@@ -50,16 +50,16 @@
                     .add_li{
                         display:inline-flex;
                         margin: 5px 5px 5px 0;
-                        padding: 5px 8px;
+                        padding: 5px 3px;
                         background: #F84464;
                         color: #fff;
                         border-radius: 10px;
                         .cont_add_icon{
                             display: flex;
                             margin-left: 5px;
+                            cursor: pointer;
                             .close{
                                 display: block;
-                                color: #fff;
                             }
                         }
                     }

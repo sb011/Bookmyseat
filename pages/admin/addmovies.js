@@ -228,12 +228,12 @@ const AddMovies = () => {
                 </div>
                 <div className={styles.add_image_input}>
                     <div className={styles.add_main}>
-                        <label htmlFor="poster" className={styles.add_label}>poster</label>
-                        <ImageInput multiple files={poster} setFiles={setPoster} />
-                    </div>
-                    <div className={styles.add_main}>
                         <label htmlFor="image" className={styles.add_label}>image</label>
                         <ImageInput multiple files={files} setFiles={setFiles} />
+                    </div>
+                    <div className={styles.add_main}>
+                        <label htmlFor="poster" className={styles.add_label}>poster</label>
+                        <ImageInput files={poster} setFiles={setPoster} />
                     </div>
                 </div>
                 <div className={styles.add_cont_button}>

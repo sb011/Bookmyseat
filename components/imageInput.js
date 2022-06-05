@@ -5,8 +5,6 @@ import Image from "next/image"
 import close from "../public/cancel.svg"
 
 const ImageInput = ({ multiple, files, setFiles }) => {
-    const [err, setErr] = useState('')
-
     const handleInputFiles = (e) => {
         e.preventDefault()
         const target = e.target
@@ -33,8 +31,8 @@ const ImageInput = ({ multiple, files, setFiles }) => {
           return toast.error("The image type is png / jpeg / gif.")
         }
   
-        if(file.size > 1024 * 1024){
-          return toast.error("The largest image size is 1mb.")
+        if(file.size > 1024 * 1024 * 5){
+          return toast.error("The largest image size is 5mb.")
         }
   
         return newFiles.push(file) 
@@ -65,9 +63,9 @@ const ImageInput = ({ multiple, files, setFiles }) => {
     const showImage = (url, index) => {
         return (
           <div key={index} className={styles.main_image}>
-            <img className={styles.spec_image} src={url} alt="avatar" style={{width: "100px"}}/>
+            <img className={styles.spec_image} src={url} alt="avatar"/>
             <div className={styles.cont_show_icon}>
-              <Image className={styles.icon_close} width="15px" height="15px" src={close} alt="cancel" onClick={() => removeImage(index)} />
+              <Image className={styles.icon_close} src={close} alt="cancel" onClick={() => removeImage(index)} />
             </div>
           </div>
         )
@@ -75,7 +73,6 @@ const ImageInput = ({ multiple, files, setFiles }) => {
 
     return (
         <div className={styles.main_image}>
-          <label htmlFor='file-upload' className={styles.upload_add}>Upload Image</label>
           <div className={styles.cont_input}>
             <input className={styles.input_image}  id="file-upload" name="file-upload" type="file" accept=".jpg, .png, .gif" multiple={multiple} onChange={handleInputFiles} />
           </div>

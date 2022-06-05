@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Loading from "./loading";
 import styles from "../styles/navbar.module.scss"
-import logo from "../public/logo4.png"
+import logo from "../public/logo.jpeg"
 import Image from "next/image";
 
 const Navbar = () => {
@@ -65,9 +65,11 @@ const Navbar = () => {
                         </ul>
                     }
                     <ul className={styles.ul}>
+                        <Link href="/"><a>
                         <div className={styles.cont_logo}>
                             <Image src={logo} alt="logo" className={styles.logo} />
                         </div>
+                        </a></Link>
                         <div className={styles.item}>
                         <li className={styles.li}><Link href="/"><a>Home</a></Link></li>
                         <li className={styles.li}><Link href="/tickets"><a>Tickets</a></Link></li>

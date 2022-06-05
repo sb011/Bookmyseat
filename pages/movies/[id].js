@@ -49,7 +49,7 @@ const Movie = (props) => {
             }
             <div className={styles.main_cont}>
                 <div className={styles.poster_cont}>
-                    <img className={styles.poster} src={movie.poster[0]} alt="poster" id="poster"/>
+                    <img className={styles.poster} src={movie.images[0]} alt="poster" id="poster"/>
                 </div>
                 <div className={styles.details}>
                     <div className={styles.info}>
@@ -95,18 +95,6 @@ const Movie = (props) => {
                                 }
                             </ul>
                         </div>
-                        <div className={styles.main}>
-                            <label htmlFor="stars" className={styles.label}>stars:</label>
-                            <ul className={styles.ul}>
-                                {
-                                    movie.stars.map((stars, index) => (
-                                        <li key={index} className={styles.li}>
-                                            <span>{stars}</span>
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
                         <div className={styles.rating}>
                             <h1 id="rating">❤️ {movie.rating}/10</h1>
                         </div>
@@ -125,6 +113,18 @@ const Movie = (props) => {
             </div>
             <div className={styles.about}>
                 <h2>About Movie:</h2>
+                <div className={styles.main}>
+                    <label htmlFor="stars" className={styles.label}>stars:</label>
+                    <ul className={styles.ul}>
+                        {
+                            movie.stars.map((stars, index) => (
+                                <li key={index} className={styles.li}>
+                                    <span>{stars}</span>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
                 <div className={styles.gall_main}>
                     <label htmlFor="trailer" className={styles.gall_label}>trailer</label>
                     <iframe 

@@ -16,11 +16,10 @@
         opacity: 0.6;
     }
     .cont_input{
-        background: gray;
         display: inline-flex;
         z-index: 1;
         .input_image{
-            display: none;
+            width: 36.5%;
         }
     }
     .show_image{
@@ -33,11 +32,13 @@
             border-radius: 10px;
             .spec_image{
                 border-radius: 10px;
+                width: 100px;
             } 
             .cont_show_icon{
                 display: flex;
                 margin-left: 5px;
                 align-items: flex-start;
+                width: 10px;
                 .icon_close{
                     cursor: pointer;
                     display: block;
