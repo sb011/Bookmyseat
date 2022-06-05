@@ -19,8 +19,7 @@ function MyApp({ Component, pageProps }) {
           Router.push("/login")
         }
       }
-      else if(u != null){
-        if(Router.pathname == "/login" || Router.pathname == "/register")
+      else if(u != null && ((Router.pathname == "/login" || Router.pathname == "/register"))){
           Router.push("/");
       }
     })
