@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getDocs, collection, orderBy, query, startAt } from 'firebase/firestore/lite';
+import { getDocs, collection } from 'firebase/firestore/lite';
 import { db } from "../../utils/firebaseConfig";
 import Link from 'next/link';
 import { toast } from "react-toastify";
@@ -8,14 +8,28 @@ import styles from '../../styles/home.module.scss';
 import Image from "next/image"
 import searchi from "../../public/search.svg";
 
+import { getDoc, doc } from "firebase/firestore/lite";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Router from "next/router"
+
 const ShowMovies = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const auth = getAuth();
 
     useEffect(async () => {
         try {
             setLoading(true)
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                const data = us.data()
+                const last = Router.pathname.split("/")
+                if(data.role == "user" && last[1] == "admin")
+                    Router.push("/");
+                }
+            })
             const res = await getDocs(collection(db, "movies"))
             
             let d = []

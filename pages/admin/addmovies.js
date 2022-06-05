@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ImageInput from '../../components/imageInput';
 import { upload } from '../../components/uploadFiles';
-import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore/lite'
 import { db } from '../../utils/firebaseConfig';
 import { toast } from "react-toastify";
 import Loading from '../../components/loading';
-import Router from 'next/router';
 import styles from "../../styles/adding.module.scss";
 import close from "../../public/cancel.svg";
 import Image from "next/image"
+
+
+import { getDoc, doc } from "firebase/firestore/lite";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Router from "next/router"
 
 const AddMovies = () => {
     const state = {
@@ -33,9 +36,26 @@ const AddMovies = () => {
     const [files, setFiles] = useState([])
     const [poster, setPoster] = useState([])
     const [err, setErr] = useState('')
-    const auth = getAuth()
     const [isUploaded, setIsUploaded] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    const auth = getAuth()
+
+    useEffect(() => {
+        try {
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                const data = us.data()
+                const last = Router.pathname.split("/")
+                if(data.role == "user" && last[1] == "admin")
+                    Router.push("/");
+                }
+            })
+        } catch (error) {
+            return toast.error(error.message)
+        }
+    }, [])
 
     const handleInputChange = e => {
         const { name, value } = e.target

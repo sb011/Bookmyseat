@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebaseConfig";
 import { toast } from "react-toastify";
 import Loading from "../../../components/loading";
 import Router from 'next/router';
 import styles from "../../../styles/adding.module.scss";
+
+import { getDoc, doc } from "firebase/firestore/lite";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const AddCinema = () => {
     const state = {
@@ -18,6 +21,24 @@ const AddCinema = () => {
 
     const [cinema, setCinema] = useState(state);
     const [loading, setLoading] = useState(false)
+
+    const auth = getAuth()
+
+    useEffect(() => {
+        try {
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                const data = us.data()
+                const last = Router.pathname.split("/")
+                if(data.role == "user" && last[1] == "admin")
+                    Router.push("/");
+                }
+            })
+        } catch (error) {
+            return toast.error(error.message)
+        }
+    }, [])
 
     const handleInputChange = e => {
         const { name, value } = e.target

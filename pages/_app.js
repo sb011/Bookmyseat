@@ -4,12 +4,14 @@ import Router from 'next/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from '../utils/firebaseConfig';
 import Layout from '../components/Layout';
+import { getDoc, doc } from 'firebase/firestore/lite';
+import { db } from '../utils/firebaseConfig';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }) {
   const auth = getAuth(app);
-  useEffect(() => {
+  useEffect(async () => {
     onAuthStateChanged(auth, async (u) => {
       // console.log(u)
       if(Router.pathname != "/login" || Router.pathname != "/register"){
@@ -17,8 +19,9 @@ function MyApp({ Component, pageProps }) {
           Router.push("/login")
         }
       }
-      else if(u != null && (Router.pathname == "/login" || Router.pathname == "/register")){
-        Router.push("/");
+      else if(u != null){
+        if(Router.pathname == "/login" || Router.pathname == "/register")
+          Router.push("/");
       }
     })
     // if(localStorage.getItem("isLogin") && (Router.pathname == "/login" || Router.pathname == "/register")){

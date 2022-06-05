@@ -77,7 +77,7 @@ const ProfileEdit = ({setOnSetting}) => {
             }
             {
             user.role === "admin"
-            ?<div className={styles.cont_bg} style={{top: "14%"}}>
+            ?<div className={styles.cont_bg} style={{top: "16%"}}>
                 <Image className={styles.backgorund}  src={bg} alt="background"/>
             </div>
             :<div className={styles.cont_bg}>

@@ -7,9 +7,30 @@ import { toast } from "react-toastify";
 import Loading from "../../../components/loading";
 import styles from "../../../styles/shows.module.scss"
 
+import { getDoc } from "firebase/firestore/lite";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 const Cinemas = () => {
     const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(false)
+
+    const auth = getAuth()
+
+    useEffect(() => {
+        try {
+            onAuthStateChanged(auth, async (u) => {
+                if(u){
+                const us = await getDoc(doc(db, 'users', `${u.uid}`))
+                const data = us.data()
+                const last = Router.pathname.split("/")
+                if(data.role == "user" && last[1] == "admin")
+                    Router.push("/");
+                }
+            })
+        } catch (error) {
+            return toast.error(error.message)
+        }
+    }, [])
 
     useEffect(async () => {
         try {
