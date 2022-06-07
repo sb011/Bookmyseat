@@ -4,7 +4,7 @@ This project is developed in Next.js, firebase, scss
 
 <img src="https://user-images.githubusercontent.com/71833071/172041489-1f8f2f88-98fe-412b-89cb-cd729bbafa85.jpeg" width="400" height="400">
 
-Users can register for this webapp and purchase cinema tickets. The administrator has the ability to add movies, theatres, and shows.
+This website is used to purchase movie tickets. It displays the most recent theatrical releases and allows users to purchase tickets. The administrator has the ability to add movies, theatres, and shows.
 
 ## Major Functionalities: 
 - Login, Register, Logout for users and admin
