@@ -15,6 +15,10 @@ This website is used to purchase movie tickets. It displays the most recent thea
 - Purchase cinema tickets
 - Search Movies, Cinemas
 
+## Admin Login:
+Email Address: admin@gmail.com
+Password: 123456
+
 ## Getting started
 Follow these steps to run this project in your local computer.
 1. Clone Repository
