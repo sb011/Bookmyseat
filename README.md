@@ -17,6 +17,7 @@ This website is used to purchase movie tickets. It displays the most recent thea
 
 ## Admin Login:
 Email Address: admin@gmail.com
+<br />
 Password: 123456
 
 ## Getting started
