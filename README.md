@@ -1,5 +1,4 @@
-# insta-clone
-
+# Bookmyseat
 This project is developed in Next.js, firebase, scss
 
 <img src="https://user-images.githubusercontent.com/71833071/172041489-1f8f2f88-98fe-412b-89cb-cd729bbafa85.jpeg" width="400" height="400">
